@@ -1,7 +1,6 @@
 ---
 title: "Lab Software"
 subtitle: "High-performance tools for microbiome bioinformatics and virology."
-engine: knitr
 listing:
   contents: software.yml
   type: grid
@@ -41,3 +40,4 @@ software_data <- software_data[order(map_dbl(software_data, "stars"), decreasing
 
 # 4. Write to software.yml for the Quarto listing to read
 write_yaml(software_data, "software.yml")
+```
