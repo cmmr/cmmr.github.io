@@ -4,9 +4,11 @@ on:
   push:
     branches: master
     paths:
-      - 'posts/**'
       - '_quarto.yml'
       - '.github/workflows/publish.yaml'
+      - 'index.qmd'
+      - 'posts/**'
+      - 'pages/**'
 
 jobs:
   build-deploy:
@@ -31,7 +33,12 @@ jobs:
           install.packages("pak")
           pak::pak(c("gh", "knitr", "purrr", "rmarkdown", "yaml"))
         shell: Rscript {0}
-
+        
+      - name: Update Software Data
+        run: Rscript pages/software.r
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 

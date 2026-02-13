@@ -15,7 +15,7 @@ website:
       - text: "Latest Updates"
         href: index.qmd
       - text: "Software Gallery"
-        href: software.qmd
+        href: pages/software.qmd
     right:
       - icon: github
         href: https://github.com/cmmr
