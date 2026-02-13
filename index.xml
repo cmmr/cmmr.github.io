@@ -5,7 +5,7 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/" 
       version="2.0">
 <channel>
-<title>CMMR Lab News</title>
+<title>CMMR Developer News</title>
 <link>https://cmmr.github.io/</link>
 <atom:link href="https://cmmr.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
@@ -16,6 +16,7 @@
   <dc:creator>Harlow Malloc</dc:creator>
   <link>https://cmmr.github.io/posts/post-with-code/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -50,6 +51,7 @@ font-style: inherit;">1</span></span></code></pre></div></div>
   <dc:creator>Tristan O&#39;Malley</dc:creator>
   <link>https://cmmr.github.io/posts/welcome/</link>
   <description><![CDATA[ 
+
 
 
 
