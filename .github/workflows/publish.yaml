@@ -2,7 +2,7 @@ name: Render and Publish
 on:
   workflow_dispatch:
   push:
-    branches: main
+    branches: master
     paths:
       - 'posts/**'
 
