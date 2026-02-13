@@ -1,16 +1,5 @@
 ---
 title: "Latest Updates"
-image: profile.jpg
-about:
-  template: trestles
-  image-shape: round
-  links:
-    - icon: github
-      text: Github
-      href: https://github.com/cmmr
-    - icon: building
-      text: BCM Website
-      href: https://www.bcm.edu/research/research-centers/alkek-center-for-metagenomics-and-microbiome-research
 listing:
   contents: posts
   sort: "date desc"
