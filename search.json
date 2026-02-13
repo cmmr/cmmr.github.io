@@ -4,14 +4,14 @@
     "href": "pages/software.html",
     "title": "Lab Software",
     "section": "",
-    "text": "The lab’s most-starred repositories are featured above.\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "The lab’s most-starred repositories are featured above.\n\n\n\n\n\n\n\n\n\n\n\nEsViritu\n\n\nRead mapping pipeline for detection and measurement of virus pathogens from metagenomic or clinical data\n\n\n\n\n\nstars\n\n\n49\n\n\n\n\n\n\n\n\n\n\n\n\nvirmap\n\n\nNo description provided.\n\n\n\n\n\nstars\n\n\n25\n\n\n\n\n\n\n\n\n\n\n\n\nMarker-MAGu\n\n\nTrans-Kingdom Marker Gene Pipeline for Taxonomic Profiling of Human Metagenomes\n\n\n\n\n\nstars\n\n\n23\n\n\n\n\n\n\n\n\n\n\n\n\nrbiom\n\n\nAn R Package for Integrated Analysis and Visualization of Microbiome Data\n\n\n\n\n\nstars\n\n\n18\n\n\n\n\n\n\n\n\n\n\n\n\nfillpattern\n\n\nPatterned Fills for R’s ggplot2 and grid Graphics\n\n\n\n\n\nstars\n\n\n12\n\n\n\n\n\n\n\n\n\n\n\n\ninterprocess\n\n\nMutexes, Semaphores, and Message Queues for R\n\n\n\n\n\nstars\n\n\n10\n\n\n\n\n\n\n\n\n\n\n\n\nTX_wastewater_virome\n\n\nNo description provided.\n\n\n\n\n\nstars\n\n\n7\n\n\n\n\n\n\n\n\n\n\n\n\necodive\n\n\nParallel and Memory-Efficient R Package for Ecological Diversity Analysis\n\n\n\n\n\nstars\n\n\n6\n\n\n\n\n\n\n\n\n\n\n\n\njobqueue\n\n\nQueue and Run Asynchronous Interruptible R Tasks on Background Processes\n\n\n\n\n\nstars\n\n\n2\n\n\n\n\n\n\n\n\n\n\n\n\nsemaphore\n\n\nShared Memory Atomic Operations in R\n\n\n\n\n\nstars\n\n\n2\n\n\n\n\n\n\n\n\n\n\n\n\nwebqueue\n\n\nHTTP Server Using Multiple CPU Cores\n\n\n\n\n\nstars\n\n\n2\n\n\n\n\n\n\n\n\n\n\n\n\nh5lite\n\n\nRead/write HDF5 datasets and attributes from R\n\n\n\n\n\nstars\n\n\n1\n\n\n\n\n\n\n\n\n\n\n\n\nNashMicrobiome2017\n\n\nPipeline for Fungal Community Analysis\n\n\n\n\n\nstars\n\n\n \n\n\n\n\n\n\n\n\n\n\n\n\npuma-deprecated\n\n\nCode for the unreleased/unpublished PUMA pipeline.\n\n\n\n\n\nstars\n\n\n \n\n\n\n\n\n\n\n\n\n\n\n\ncovid\n\n\nCOVID-19 Dashboard coded in Shiny R\n\n\n\n\n\nstars\n\n\n \n\n\n\n\n\n\n\n\n\n\n\n\nhdf5lib\n\n\nHDF5 C Library for R\n\n\n\n\n\nstars\n\n\n \n\n\n\n\n\n\n\n\n\n\n\n\ncmmr.github.io\n\n\nCMMR Developer News\n\n\n\n\n\nstars\n\n\n \n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/post-with-code/index.html",
     "href": "posts/post-with-code/index.html",
     "title": "Post With Code",
     "section": "",
-    "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2"
   },
   {
     "objectID": "index.html",
@@ -25,6 +25,6 @@
     "href": "posts/welcome/index.html",
     "title": "Welcome To My Blog",
     "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts.\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
   }
 ]
