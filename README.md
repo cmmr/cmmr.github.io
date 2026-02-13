@@ -116,3 +116,55 @@ Please be mindful of your `categories` list in the YAML header.
 Mis-categorizing a post (e.g., sending a non-R post to R-bloggers) is considered poor "netiquette" and can result in our lab's feed being throttled or removed from these aggregators.
 
 ---
+
+
+## 📝 The Anatomy of a `.qmd` File
+
+Every post is a single `.qmd` file. It combines a metadata header (YAML) with your text and code. 
+
+### Example `index.qmd`
+
+    ---
+    title: "Deep Dive into h5lite"
+    author: "Your Name"
+    date: "2026-02-13"
+    description: "A quick summary of what this post is about."
+    image: "thumbnail.png" # The thumbnail shown in gallery grids
+    categories: [R, hdf5, tutorial] # 'R' tag triggers RSS syndication
+    ---
+    
+    ## Introduction
+    
+    This is standard Markdown. You can use **bold**, *italics*, and [links](https://google.com).
+    
+    ### R Setup Block
+    ```{r}
+    #| label: setup-r
+    #| include: false
+    
+    # Installation block for GitHub Actions
+    if (identical(Sys.getenv("GITHUB_ACTIONS"), "true")) {
+      pak::pak(c("h5lite", "ggplot2"))
+    }
+    ```
+    
+    ### Python Analysis Block
+    ```{python}
+    #| label: python-viz
+    import matplotlib.pyplot as plt
+    plt.plot([1, 2, 3], [4, 5, 6])
+    plt.show()
+    ```
+
+
+---
+
+## 📚 Quarto Resources
+
+Quarto uses a specific flavor of Markdown and a unique syntax for managing code output. Refer to these guides when writing your posts:
+
+* **[Quarto Markdown Basics](https://quarto.org/docs/authoring/markdown-basics.html)**: A guide to text formatting, headers, equations, and citations.
+
+* **[Executable Code Blocks](https://quarto.org/docs/computations/execution-options.html)**: Learn how to use "Cell Options" (like `#| echo: false` or `#| label: fig-1`) to control how your code and plots appear.
+
+* **[Figures and Layout](https://quarto.org/docs/authoring/figures.html)**: How to create sub-plots, cross-references, and captions.

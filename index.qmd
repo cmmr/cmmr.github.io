@@ -1,15 +1,28 @@
 ---
-title: "cmmr.github.io"
+title: "CMMR Developer Newsroom"
+subtitle: "Updates, tutorials, and announcements from the CMMR bioinformatics team."
 listing:
   contents: posts
-  feed: true
   sort: "date desc"
-  type: default
-  categories: true
-  sort-ui: false
-  filter-ui: false
+  type: grid
+  categories: cloud
+  sort-ui: true
+  filter-ui: true
+  fields: [image, date, title, reading-time, description, categories]
+  feed: true
 page-layout: full
 title-block-banner: true
 ---
 
+## Featured Research & Software
 
+Welcome to the CMMR Developer's technical blog. Here, we document our software development journey and share insights into virology, metagenomics, and ecological diversity. 
+
+::: {.callout-note appearance="simple"}
+### 📡 Automatic Syndication
+Are you an R user? Any post tagged with **"R"** is automatically shared with [R-bloggers](https://www.r-bloggers.com) and [R Weekly](https://rweekly.org).
+:::
+
+---
+
+## Latest Updates
