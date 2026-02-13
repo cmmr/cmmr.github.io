@@ -1,6 +1,7 @@
 ---
 title: "Lab Software"
 subtitle: "High-performance tools for microbiome bioinformatics and virology."
+engine: knitr
 listing:
   contents: software.yml
   type: grid
