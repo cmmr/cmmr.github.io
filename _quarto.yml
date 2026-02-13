@@ -23,21 +23,21 @@ website:
     contents:
       - section: "Public Repositories"
         contents:
-          - text: "EsViritu (Viral Discovery)"
+          - text: "**EsViritu**<br><small class='repo-desc'>Viral Discovery</small>"
             href: https://github.com/cmmr/EsViritu
-          - text: "virmap (Taxonomic Mapping)"
+          - text: "**virmap**<br><small class='repo-desc'>Taxonomic Mapping</small>"
             href: https://github.com/cmmr/virmap
-          - text: "Marker-MAGu (Metagenomic Profiling)"
+          - text: "**Marker-MAGu**<br><small class='repo-desc'>Metagenomic Profiling</small>"
             href: https://github.com/cmmr/Marker-MAGu
-          - text: "rbiom (Microbiome Analysis)"
+          - text: "**rbiom**<br><small class='repo-desc'>Microbiome Analysis</small>"
             href: https://cmmr.github.io/rbiom
-          - text: "ecodive (Ecological Diversity)"
+          - text: "**ecodive**<br><small class='repo-desc'>Ecological Diversity</small>"
             href: https://cmmr.github.io/ecodive
-          - text: "h5lite (HDF5 Interface)"
+          - text: "**h5lite**<br><small class='repo-desc'>HDF5 Interface</small>"
             href: https://cmmr.github.io/h5lite
-          - text: "fillpattern (ggplot2 Pattern Fills)"
+          - text: "**fillpattern**<br><small class='repo-desc'>ggplot2 Pattern Fills</small>"
             href: https://github.com/cmmr/fillpattern
-          - text: "interprocess (Multiprocess Control)"
+          - text: "**interprocess**<br><small class='repo-desc'>Multiprocess Control</small>"
             href: https://github.com/cmmr/interprocess
 
 format:
@@ -46,4 +46,3 @@ format:
       light: flatly
       dark: darkly
     css: styles.css
-
