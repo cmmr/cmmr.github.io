@@ -1,17 +1,27 @@
 ---
 title: "Latest Updates"
+image: profile.jpg
+about:
+  template: trestles
+  image-shape: round
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com/cmmr
+    - icon: building
+      text: BCM Website
+      href: https://www.bcm.edu/research/research-centers/alkek-center-for-metagenomics-and-microbiome-research
 listing:
   contents: posts
   sort: "date desc"
   type: grid
-  categories: cloud
+  categories: true # Changed from 'cloud' to 'true' (list view) to be less distracting
   sort-ui: true
   filter-ui: true
   fields: [image, date, title, reading-time, description, categories]
   feed: true
 ---
 
-Our team is dedicated to creating tools that empower researchers in the field of bioinformatics, and this blog serves as a platform to share our latest updates, tutorials, and announcements.
+**The Alkek Center for Metagenomics and Microbiome Research (CMMR)** is a leading hub for microbiome research at **Baylor College of Medicine**.
 
----
-
+Our team is dedicated to creating high-performance tools that empower researchers in the field of bioinformatics. This blog serves as a platform to share our latest updates, tutorials, and R package announcements (syndicated to R-bloggers and RWeekly) with the global data science community.

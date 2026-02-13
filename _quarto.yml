@@ -40,6 +40,14 @@ website:
           - text: "**interprocess**<br><small class='repo-desc'>Multiprocess Control</small>"
             href: https://github.com/cmmr/interprocess
 
+  # Footer with Official Info
+  page-footer:
+    background: light
+    left: "© 2026 CMMR / Baylor College of Medicine"
+    right:
+      - text: "Alkek Center for Metagenomics & Microbiome Research"
+        href: https://www.bcm.edu/research/research-centers/alkek-center-for-metagenomics-and-microbiome-research
+
 format:
   html:
     theme:
