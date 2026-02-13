@@ -1,13 +1,10 @@
 [
   {
-    "listing": "/about.html",
-    "items": [
-      "/posts/post-with-code/index.html",
-      "/posts/welcome/index.html"
-    ]
+    "listing": "/pages/software.html",
+    "items": []
   },
   {
-    "listing": "/posts/welcome/index.html",
+    "listing": "/posts/post-with-code/index.html",
     "items": []
   },
   {
@@ -18,11 +15,7 @@
     ]
   },
   {
-    "listing": "/posts/post-with-code/index.html",
-    "items": []
-  },
-  {
-    "listing": "/software.html",
+    "listing": "/posts/welcome/index.html",
     "items": []
   }
 ]

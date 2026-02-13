@@ -1,38 +1,10 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "pages/software.html",
+    "href": "pages/software.html",
+    "title": "Lab Software",
     "section": "",
-    "text": "About this blog\n\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\nnews\ncode\nanalysis\n\n\n\n\n\n\nHarlow Malloc\n\n\nFeb 13, 2026\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\nnews\n\n\n\n\n\n\nTristan O’Malley\n\n\nFeb 10, 2026\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
-    "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts.\n\n\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "CMMR Developer Newsroom",
-    "section": "",
-    "text": "Welcome to the CMMR Developer’s technical blog. Here, we document our software development journey and share insights into virology, metagenomics, and ecological diversity.\n\n\n\n\n\n\nNote📡 Automatic Syndication\n\n\n\nAre you an R user? Any post tagged with “R” is automatically shared with R-bloggers and R Weekly."
-  },
-  {
-    "objectID": "index.html#featured-research-software",
-    "href": "index.html#featured-research-software",
-    "title": "CMMR Developer Newsroom",
-    "section": "",
-    "text": "Welcome to the CMMR Developer’s technical blog. Here, we document our software development journey and share insights into virology, metagenomics, and ecological diversity.\n\n\n\n\n\n\nNote📡 Automatic Syndication\n\n\n\nAre you an R user? Any post tagged with “R” is automatically shared with R-bloggers and R Weekly."
-  },
-  {
-    "objectID": "index.html#latest-updates",
-    "href": "index.html#latest-updates",
-    "title": "CMMR Developer Newsroom",
-    "section": "Latest Updates",
-    "text": "Latest Updates"
+    "text": "The lab’s most-starred repositories are featured above.\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/post-with-code/index.html",
@@ -42,10 +14,17 @@
     "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "software.html",
-    "href": "software.html",
-    "title": "Lab Software",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Latest Updates",
     "section": "",
-    "text": "#| include: false #| echo: false\nlibrary(gh) library(yaml) library(purrr)\n\n1. Fetch all public repos for the CMMR organization\nrepos &lt;- gh(“/orgs/cmmr/repos”, type = “public”, .limit = 100)\n\n\n2. Extract and format the data\nsoftware_data &lt;- map(repos, ~{ list( title = .x\\(name,\n    description = .x\\)description %||% “No description provided.”, path = .x\\(html_url,\n    stars = .x\\)stargazers_count, # Assign custom images if they exist, else use a lab placeholder image = sprintf(“https://raw.githubusercontent.com/cmmr/%s/main/man/figures/logo.png”, .x$name) ) })\n\n\n3. Sort by stars descending\nsoftware_data &lt;- software_data[order(map_dbl(software_data, “stars”), decreasing = TRUE)]\n\n\n4. Write to software.yml for the Quarto listing to read\nwrite_yaml(software_data, “software.yml”)\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Our team is dedicated to creating tools that empower researchers in the field of bioinformatics, and this blog serves as a platform to share our latest updates, tutorials, and announcements.\n\n\n\n\n\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n1 min\n\n\nnews\n\ncode\n\nanalysis\n\n\n\n\n\n\n\nFeb 13, 2026\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n1 min\n\n\nnews\n\n\n\n\n\n\n\nFeb 10, 2026\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts.\n\n\n\n\n\n\n\n\nNo matching items"
   }
 ]

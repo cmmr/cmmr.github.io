@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cmmr.github.io/about.html</loc>
-    <lastmod>2026-02-13T21:41:40.209Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cmmr.github.io/posts/welcome/index.html</loc>
-    <lastmod>2026-02-13T21:41:40.210Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cmmr.github.io/index.html</loc>
-    <lastmod>2026-02-13T21:41:40.209Z</lastmod>
+    <loc>https://cmmr.github.io/pages/software.html</loc>
+    <lastmod>2026-02-13T22:11:14.005Z</lastmod>
   </url>
   <url>
     <loc>https://cmmr.github.io/posts/post-with-code/index.html</loc>
-    <lastmod>2026-02-13T21:41:40.210Z</lastmod>
+    <lastmod>2026-02-13T22:11:14.005Z</lastmod>
   </url>
   <url>
-    <loc>https://cmmr.github.io/software.html</loc>
-    <lastmod>2026-02-13T21:41:40.210Z</lastmod>
+    <loc>https://cmmr.github.io/index.html</loc>
+    <lastmod>2026-02-13T22:11:14.005Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cmmr.github.io/posts/welcome/index.html</loc>
+    <lastmod>2026-02-13T22:11:14.005Z</lastmod>
   </url>
 </urlset>
