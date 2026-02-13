@@ -31,13 +31,13 @@ Most of you will use **RStudio** or **Positron**. These IDEs come with Quarto pr
 
 ### Managing Dependencies
 
-If you are NOT rendering locally (letting GitHub Actions do it), you must include a hidden setup block at the top of your `index.qmd` so the cloud runner knows what to install:
+If you are NOT rendering locally (letting GitHub Actions do it), you must include an **R** setup block at the top of your `index.qmd` so the cloud runner knows what to install:
 
-```{{r, include=FALSE}}
-if (identical(Sys.getenv("GITHUB_ACTIONS"), "true")) {
-  pak::pak(c("h5lite", "rbiom", "ggplot2"))
-}
-```
+    ```{r, include=FALSE}
+    if (identical(Sys.getenv("GITHUB_ACTIONS"), "true")) {
+      pak::pak(c("h5lite", "rbiom", "ggplot2"))
+    }
+    ```
 
 ------------------------------------------------------------------------
 
@@ -54,13 +54,13 @@ If you use **VS Code** or **PyCharm**, you may need to install the Quarto CLI ma
 
 ### Managing Dependencies
 
-The GitHub Action runner includes a base Python installation. The easiest way to install your specific libraries is using a **bash** block at the top of your post:
+The GitHub Action runner includes a base Python installation. The easiest way to install your specific libraries is using a **bash** setup block at the top of your post:
 
-```{{bash, include=FALSE}}
-if [ "$GITHUB_ACTIONS" == "true" ]; then
-  pip install pandas matplotlib numpy h5py
-fi
-```
+    ```{bash, include=FALSE}
+    if [ "$GITHUB_ACTIONS" == "true" ]; then
+      pip install pandas matplotlib numpy h5py
+    fi
+    ```
 
 ------------------------------------------------------------------------
 
