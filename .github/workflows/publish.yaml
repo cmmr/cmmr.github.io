@@ -25,7 +25,7 @@ jobs:
         
       - name: Install R Packages
         run: |
-          install.packages(c("rmarkdown", "knitr"))
+          install.packages(c("knitr", "pak", "rmarkdown"))
         shell: Rscript {0}
 
       - name: Set up Quarto
@@ -44,4 +44,4 @@ jobs:
           git config --local user.name "GitHub Action"
           git add _freeze
           git commit -m "Add frozen results from latest render [skip ci]" || echo "No changes to commit"
-          git push origin main
+          git push origin master

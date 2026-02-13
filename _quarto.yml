@@ -6,7 +6,7 @@ execute:
   freeze: auto
 
 website:
-  title: "CMMR Lab News"
+  title: "CMMR Developer News"
   site-url: "https://cmmr.github.io/"
   navbar:
     right:
@@ -16,9 +16,8 @@ website:
 format:
   html:
     theme:
-      - cosmo
-      - brand
-    css: styles.css
+      light: cosmo
+      dark: darkly
 
 
 
