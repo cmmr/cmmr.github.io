@@ -7,28 +7,60 @@ execute:
 
 website:
   title: "CMMR Developer News"
-  site-url: "https://cmmr.github.io/"
+  site-url: "https://cmmr.github.io"
+  
+  # Professional Light/Dark Switching
+  theme:
+    light: flatly
+    dark: darkly
+
+  # Navigation Bar
   navbar:
+    left:
+      - text: "Newsroom"
+        href: index.qmd
+      - text: "Software"
+        menu:
+          - text: "EsViritu (Viral Discovery)"
+            href: https://github.com/cmmr/EsViritu
+          - text: "virmap (Taxonomic Mapping)"
+            href: https://github.com/cmmr/virmap
+          - text: "Marker-MAGu (MAG Binning)"
+            href: https://github.com/cmmr/Marker-MAGu
+          - text: "rbiom (Microbiome Analysis)"
+            href: https://cmmr.github.io/rbiom
+          - text: "ecodive (Ecological Diversity)"
+            href: https://cmmr.github.io/ecodive
+          - text: "h5lite (HDF5 Interface)"
+            href: https://cmmr.github.io/h5lite
     right:
       - icon: github
         href: https://github.com/cmmr
       - icon: rss
         href: index.xml
 
+  # Sidebar for "Filler" Content (Organization)
+  sidebar:
+    style: "floating"
+    contents:
+      - section: "About the Lab"
+        contents:
+          - text: "Our Mission"
+            href: https://www.bcm.edu/research/research-centers/alkek-center-for-metagenomics-and-microbiome-research
+          - text: "Meet the Team"
+            href: https://www.bcm.edu/research/research-centers/alkek-center-for-metagenomics-and-microbiome-research/faculty-and-staff
+      - section: "Quick Links"
+        contents:
+          - text: "GitHub Org"
+            href: https://github.com/cmmr
+          - text: "Lab Protocols"
+            href: https://www.bcm.edu/research/research-centers/alkek-center-for-metagenomics-and-microbiome-research/cmmr-sequencing-center
+
+# Landing Page Post Layout
 listing:
   contents: posts
   sort: "date desc"
-  type: default
-  categories: true
-  sort-ui: false
-  filter-ui: true
+  type: grid         # Professional grid layout instead of list
+  categories: true   # Enables the category cloud on the right
   feed: true
-
-format:
-  html:
-    theme:
-      light: cosmo
-      dark: darkly
-
-
 

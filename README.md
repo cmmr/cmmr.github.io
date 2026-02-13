@@ -92,18 +92,27 @@ git push origin master
 
 ## 📡 Share Your Work
 
-Our blog generates automatic RSS feeds. If you want your post to be picked up by **R-bloggers** or **R Weekly**, ensure your YAML header includes the R category:
+Our blog is configured to automatically share your expertise with the global data science community via RSS feeds. 
 
-``` yaml
+
+### How it Works
+Any post you tag with the category `R` is automatically bundled into a specialized "R-only" feed. Aggregators like **R-bloggers** and **RWeekly** "watch" this feed and will automatically re-post your content to their audiences shortly after you push to GitHub.
+
+
+### Active Feed Mappings
+Use this table to track where our content is being syndicated. If you set up a new connection (e.g., to a Python aggregator or a specific bioinformatics planet), please add it to this list.
+
+| Aggregator | Content Filter | Feed URL |
+| :--- | :--- | :--- |
+| [**R-bloggers**](https://www.r-bloggers.com/) | R-related only | `https://cmmr.github.io/categories/r/index.xml` |
+| [**RWeekly**](https://rweekly.org) | R-related only | `https://cmmr.github.io/categories/r/index.xml` |
+
+### ⚠️ Warning: Category Discipline
+Please be mindful of your `categories` list in the YAML header.
+
+* **Include `R`** only if the post contains R code, R package news, or R-centric data science.
+* **Exclude `R`** for purely Python tutorials or general bioinformatics posts. 
+
+Mis-categorizing a post (e.g., sending a non-R post to R-bloggers) is considered poor "netiquette" and can result in our lab's feed being throttled or removed from these aggregators.
+
 ---
-title: "My New Package Update"
-author: "Your Name"
-categories: [R, packages, microbiome]
----
-```
-
-The above example will be added to the RSS feeds at:
-
-* `https://cmmr.github.io/categories/r/index.xml`
-* `https://cmmr.github.io/categories/packages/index.xml`
-* `https://cmmr.github.io/categories/microbiome/index.xml`
