@@ -5,6 +5,8 @@ on:
     branches: master
     paths:
       - 'posts/**'
+      - '_quarto.yml'
+      - '.github/workflows/publish.yaml'
 
 jobs:
   build-deploy:
@@ -20,6 +22,11 @@ jobs:
 
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
+        
+      - name: Install R Packages
+        run: |
+          install.packages(c("rmarkdown", "knitr"))
+        shell: Rscript {0}
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
