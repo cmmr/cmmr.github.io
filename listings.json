@@ -7,7 +7,7 @@
     ]
   },
   {
-    "listing": "/posts/post-with-code/index.html",
+    "listing": "/posts/welcome/index.html",
     "items": []
   },
   {
@@ -18,7 +18,11 @@
     ]
   },
   {
-    "listing": "/posts/welcome/index.html",
+    "listing": "/posts/post-with-code/index.html",
+    "items": []
+  },
+  {
+    "listing": "/software.html",
     "items": []
   }
 ]
