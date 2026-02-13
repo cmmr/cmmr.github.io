@@ -31,13 +31,8 @@ jobs:
       - name: Install R Packages
         run: |
           install.packages("pak")
-          pak::pak(c("gh", "knitr", "purrr", "rmarkdown", "yaml"))
+          pak::pak(c("knitr", "rmarkdown"))
         shell: Rscript {0}
-        
-      - name: Update Software Data
-        run: Rscript pages/software.r
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2

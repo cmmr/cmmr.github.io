@@ -11,11 +11,6 @@ website:
 
   # Navigation Bar
   navbar:
-    left:
-      - text: "Latest Updates"
-        href: index.qmd
-      - text: "Software Gallery"
-        href: pages/software.qmd
     right:
       - icon: github
         href: https://github.com/cmmr
@@ -26,18 +21,24 @@ website:
   sidebar:
     style: "floating"
     contents:
-      - section: "About the Lab"
+      - section: "Public Repositories"
         contents:
-          - text: "Our Mission"
-            href: https://www.bcm.edu/research/research-centers/alkek-center-for-metagenomics-and-microbiome-research
-          - text: "Meet the Team"
-            href: https://www.bcm.edu/research/research-centers/alkek-center-for-metagenomics-and-microbiome-research/faculty-and-staff
-      - section: "Quick Links"
-        contents:
-          - text: "GitHub Org"
-            href: https://github.com/cmmr
-          - text: "Lab Protocols"
-            href: https://www.bcm.edu/research/research-centers/alkek-center-for-metagenomics-and-microbiome-research/cmmr-sequencing-center
+          - text: "EsViritu (Viral Discovery)"
+            href: https://github.com/cmmr/EsViritu
+          - text: "virmap (Taxonomic Mapping)"
+            href: https://github.com/cmmr/virmap
+          - text: "Marker-MAGu (Metagenomic Profiling)"
+            href: https://github.com/cmmr/Marker-MAGu
+          - text: "rbiom (Microbiome Analysis)"
+            href: https://cmmr.github.io/rbiom
+          - text: "ecodive (Ecological Diversity)"
+            href: https://cmmr.github.io/ecodive
+          - text: "h5lite (HDF5 Interface)"
+            href: https://cmmr.github.io/h5lite
+          - text: "fillpattern (ggplot2 Pattern Fills)"
+            href: https://github.com/cmmr/fillpattern
+          - text: "interprocess (Multiprocess Control)"
+            href: https://github.com/cmmr/interprocess
 
 format:
   html:

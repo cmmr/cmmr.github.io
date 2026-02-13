@@ -9,8 +9,6 @@ listing:
   filter-ui: true
   fields: [image, date, title, reading-time, description, categories]
   feed: true
-page-layout: full
-title-block-banner: true
 ---
 
 Our team is dedicated to creating tools that empower researchers in the field of bioinformatics, and this blog serves as a platform to share our latest updates, tutorials, and announcements.
