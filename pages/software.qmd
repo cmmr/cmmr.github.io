@@ -2,7 +2,7 @@
 title: "Lab Software"
 subtitle: "High-performance tools for microbiome bioinformatics and virology."
 listing:
-  contents: pages/software.yml
+  contents: software.yml
   type: grid
   sort: "stars desc"
   fields: [title, description, stars]

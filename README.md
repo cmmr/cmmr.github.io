@@ -108,12 +108,7 @@ Use this table to track where our content is being syndicated. If you set up a n
 | [**RWeekly**](https://rweekly.org) | R-related only | `https://cmmr.github.io/categories/r/index.xml` |
 
 ### ⚠️ Warning: Category Discipline
-Please be mindful of your `categories` list in the YAML header.
-
-* **Include `R`** only if the post contains R code, R package news, or R-centric data science.
-* **Exclude `R`** for purely Python tutorials or general bioinformatics posts. 
-
-Mis-categorizing a post (e.g., sending a non-R post to R-bloggers) is considered poor "netiquette" and can result in our lab's feed being throttled or removed from these aggregators.
+Please be mindful of your `categories` list in the YAML header. Mis-categorizing a post (e.g., sending a non-R post to R-bloggers) is considered poor "netiquette" and can result in our lab's feed being throttled or removed from these aggregators.
 
 ---
 

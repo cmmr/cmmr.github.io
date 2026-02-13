@@ -46,11 +46,3 @@ format:
       dark: darkly
     css: styles.css
 
-# Landing Page Post Layout
-listing:
-  contents: posts
-  sort: "date desc"
-  type: grid
-  categories: true
-  feed: true
-
