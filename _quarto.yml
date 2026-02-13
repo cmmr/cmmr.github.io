@@ -12,6 +12,17 @@ website:
     right:
       - icon: github
         href: https://github.com/cmmr
+      - icon: rss
+        href: index.xml
+
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: true
+  feed: true
 
 format:
   html:

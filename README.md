@@ -1,4 +1,4 @@
-Welcome to the official [CMMR Developer News](https://github.com/cmmr) blog! This site is a centralized hub for the bioinformatics team's announcements, news, and technical tutorials.
+Welcome to the official **CMMR Developer News blog!** This site is a centralized hub for the bioinformatics team's announcements, news, and technical tutorials.
 
 This blog is built using **Quarto**, a multi-language, next-generation version of RMarkdown. It allows us to combine prose, code, and high-quality output into a single document.
 
@@ -68,7 +68,7 @@ The GitHub Action runner includes a base Python installation. The easiest way to
 
 ### Option 1: The "Cloud Render" (Easiest)
 
-Simply commit your `.qmd` file. Our GitHub Action will see the new file, install the dependencies you specified in your setup blocks, render the post, and publish it.
+Simply commit your `index.qmd` file. Our GitHub Action will see the new file, install the dependencies you specified in your setup blocks, render the post, and publish it.
 
 ### Option 2: The "Local Freeze" (Best for Large Data)
 
@@ -101,3 +101,9 @@ author: "Your Name"
 categories: [R, packages, microbiome]
 ---
 ```
+
+The above example will be added to the RSS feeds at:
+
+* `https://cmmr.github.io/categories/r/index.xml`
+* `https://cmmr.github.io/categories/packages/index.xml`
+* `https://cmmr.github.io/categories/microbiome/index.xml`
