@@ -4,7 +4,7 @@ author: "Daniel P. Smith"
 date: "2026-02-25"
 categories: [R, CRAN, Package, HDF5, Big Data, Database]
 image: "thumbnail.png"
-description: "New R packages on CRAN provide a straightforward way to use the HDF5 storage format without manual system library configuration."
+description: "These new R packages on CRAN provide a straightforward way to use the HDF5 storage format without manual system library configuration."
 ---
 
 <div style="text-align:center;">
