@@ -19,38 +19,34 @@ website:
 
   # Organization Sidebar
   sidebar:
-    - style: "floating"
-      side: left
-      contents:
-        - section: "Public Repositories"
-          contents:
-            - text: "**EsViritu**<br><small class='repo-desc'>Viral Discovery</small>"
-              href: https://github.com/cmmr/EsViritu
-            - text: "**virmap**<br><small class='repo-desc'>Taxonomic Mapping</small>"
-              href: https://github.com/cmmr/virmap
-            - text: "**Marker-MAGu**<br><small class='repo-desc'>Metagenomic Profiling</small>"
-              href: https://github.com/cmmr/Marker-MAGu
-            - text: "**rbiom**<br><small class='repo-desc'>Microbiome Analysis</small>"
-              href: https://cmmr.github.io/rbiom
-            - text: "**ecodive**<br><small class='repo-desc'>Ecological Diversity</small>"
-              href: https://cmmr.github.io/ecodive
-            - text: "**h5lite**<br><small class='repo-desc'>HDF5 Interface</small>"
-              href: https://cmmr.github.io/h5lite
-            - text: "**fillpattern**<br><small class='repo-desc'>ggplot2 Pattern Fills</small>"
-              href: https://github.com/cmmr/fillpattern
-            - text: "**interprocess**<br><small class='repo-desc'>Multiprocess Control</small>"
-              href: https://github.com/cmmr/interprocess
+    style: "floating"
+    contents:
+      - section: "Public Repositories"
+        contents:
+          - text: "**EsViritu**<br><small class='repo-desc'>Viral Discovery</small>"
+            href: https://github.com/cmmr/EsViritu
+          - text: "**virmap**<br><small class='repo-desc'>Taxonomic Mapping</small>"
+            href: https://github.com/cmmr/virmap
+          - text: "**Marker-MAGu**<br><small class='repo-desc'>Metagenomic Profiling</small>"
+            href: https://github.com/cmmr/Marker-MAGu
+          - text: "**rbiom**<br><small class='repo-desc'>Microbiome Analysis</small>"
+            href: https://cmmr.github.io/rbiom
+          - text: "**ecodive**<br><small class='repo-desc'>Ecological Diversity</small>"
+            href: https://cmmr.github.io/ecodive
+          - text: "**h5lite**<br><small class='repo-desc'>HDF5 Interface</small>"
+            href: https://cmmr.github.io/h5lite
+          - text: "**fillpattern**<br><small class='repo-desc'>ggplot2 Pattern Fills</small>"
+            href: https://github.com/cmmr/fillpattern
+          - text: "**interprocess**<br><small class='repo-desc'>Multiprocess Control</small>"
+            href: https://github.com/cmmr/interprocess
+            
+  # Links to RSS Aggregators
+  margin-header: |
+    **Featured On**
     
-    - style: "floating"
-      side: right
-      contents:
-        - section: "Featured On"
-          contents:
-            - text: "R-bloggers"
-              href: "https://www.r-bloggers.com/"
-            - text: "R Weekly"
-              href: "https://rweekly.org/"
-  
+    <a href="https://www.r-bloggers.com/" class="text-muted"><small>R-bloggers</small></a><br>
+    <a href="https://rweekly.org/" class="text-muted"><small>R Weekly</small></a>
+
   # Footer with Official Info
   page-footer:
     background: light
