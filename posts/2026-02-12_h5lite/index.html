@@ -6,10 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Harlow Malloc">
-<meta name="dcterms.date" content="2026-02-13">
+<meta name="author" content="Daniel P. Smith">
+<meta name="dcterms.date" content="2026-02-25">
+<meta name="description" content="New R packages on CRAN provide a straightforward way to use the HDF5 storage format without manual system library configuration.">
 
-<title>Post With Code – CMMR Developer News</title>
+<title>Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage – CMMR Developer News</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,9 +80,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-9200f92b0e64c198fbfdb895b13f26b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-d2d372f2a8031b09d337fb1deec5f2b6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-9200f92b0e64c198fbfdb895b13f26b5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-497ac427c4f8db34a43126f496d2535b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-33ff73f83ccc5797b734dcb6ce0b7d6d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-497ac427c4f8db34a43126f496d2535b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -315,7 +316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Post With Code</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -325,11 +326,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Post With Code</h1>
-                                <div class="quarto-categories">
-                <div class="quarto-category">news</div>
-                <div class="quarto-category">code</div>
-                <div class="quarto-category">analysis</div>
+      <h1 class="title">Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage</h1>
+                  <div>
+        <div class="description">
+          New R packages on CRAN provide a straightforward way to use the HDF5 storage format without manual system library configuration.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">Packages</div>
+                <div class="quarto-category">HDF5</div>
+                <div class="quarto-category">Data Science</div>
+                <div class="quarto-category">CRAN</div>
               </div>
                   </div>
   </div>
@@ -340,14 +348,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>Harlow Malloc </p>
+               <p>Daniel P. Smith </p>
             </div>
     </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">February 13, 2026</p>
+        <p class="date">February 25, 2026</p>
       </div>
     </div>
     
@@ -433,15 +441,193 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>This is a post with executable code.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+<p>For years, R developers wishing to use HDF5 faced a difficult choice: accept the weight of Bioconductor dependencies or gamble on the user’s local system library configuration. Today, we are excited to announce the release of <strong><a href="https://cmmr.github.io/h5lite/">h5lite</a></strong> and <strong><a href="https://cmmr.github.io/hdf5lib/">hdf5lib</a></strong> on CRAN. These packages provide a modern, zero-dependency interface to the HDF5 2.0 storage format, finally making high-performance hierarchical data accessible for both interactive data science and robust R package development without the traditional installation hurdles.</p>
+<section id="the-motivation-solving-the-installation-lottery" class="level2">
+<h2 class="anchored" data-anchor-id="the-motivation-solving-the-installation-lottery">The Motivation: Solving the Installation Lottery</h2>
+<p>HDF5 (Hierarchical Data Format) is a standard for storing massive arrays and complex nested lists. However, integrating HDF5 into R workflows—especially for CRAN package developers—has historically involved two difficult paths:</p>
+<ul>
+<li><strong>The Bioconductor Bridge:</strong> Using <code>rhdf5</code> is a solid option, but it requires users to navigate the <code>BiocManager</code> ecosystem. This complicates the standard <code>install.packages()</code> workflow for general-purpose CRAN packages and can lead to intermittent issues on CRAN check farms.</li>
+<li><strong>The System Lottery:</strong> The <code>hdf5r</code> package is powerful but typically requires users to manually install HDF5 system libraries (<code>libhdf5-dev</code>). This is notoriously difficult for Windows users and creates an unpredictable environment where a package might only work if the user happens to have the right library version pre-installed.</li>
+</ul>
+<p>The catalyst for these new packages was a practical challenge: adding HDF5 support to the <a href="[https://github.com/cmmr/rbiom/](https://github.com/cmmr/rbiom/)"><code>rbiom</code></a> package. We built <code>h5lite</code> and <code>hdf5lib</code> to provide a CRAN-native ecosystem that eliminates these barriers while guaranteeing access to the latest HDF5 2.0 features.</p>
+<p><img src="h5lite.png" align="right" width="179" height="200" alt="h5lite logo"></p>
+</section>
+<section id="the-interface-h5lite" class="level2">
+<h2 class="anchored" data-anchor-id="the-interface-h5lite">The Interface: <a href="[https://cmmr.github.io/h5lite/](https://cmmr.github.io/h5lite/)"><code>h5lite</code></a></h2>
+<p><code>h5lite</code> is an opinionated, streamlined interface that handles the complexities of type mapping and interoperability so you can focus on your data. It manages the following default behaviors:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 21%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">R Data Type</th>
+<th style="text-align: left;">HDF5 Equivalent</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Numeric</strong></td>
+<td style="text-align: left;"><em>variable</em></td>
+<td style="text-align: left;">Selects optimal type: <code>uint8</code>, <code>float32</code>, etc.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Logical</strong></td>
+<td style="text-align: left;"><code>uint8</code></td>
+<td style="text-align: left;">Stored as 0 (FALSE) or 1 (TRUE).</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Character</strong></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Variable or fixed-length; UTF-8 or ASCII.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Complex</strong></td>
+<td style="text-align: left;"><code>complex</code></td>
+<td style="text-align: left;">Native HDF5 2.0+ complex numbers.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Raw</strong></td>
+<td style="text-align: left;"><code>opaque</code></td>
+<td style="text-align: left;">Raw bytes / binary data.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Factor</strong></td>
+<td style="text-align: left;"><code>enum</code></td>
+<td style="text-align: left;">Integer indices with label mapping.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>integer64</strong></td>
+<td style="text-align: left;"><code>int64</code></td>
+<td style="text-align: left;">64-bit signed integers via <code>bit64</code> package.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>POSIXt</strong></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">ISO 8601 string (<code>YYYY-MM-DDTHH:MM:SSZ</code>).</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>List</strong></td>
+<td style="text-align: left;"><code>group</code></td>
+<td style="text-align: left;">Recursive container structure.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Data Frame</strong></td>
+<td style="text-align: left;"><code>compound</code></td>
+<td style="text-align: left;">Table of mixed types.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>NULL</strong></td>
+<td style="text-align: left;"><code>null</code></td>
+<td style="text-align: left;">Creates a placeholder.</td>
+</tr>
+</tbody>
+</table>
+<section id="key-features" class="level3">
+<h3 class="anchored" data-anchor-id="key-features">Key Features</h3>
+<ul>
+<li><strong>Smart Defaults:</strong> The package automatically chooses efficient storage types, such as <code>int8</code> for small integers or <code>float64</code> for vectors containing <code>NA</code> values.</li>
+<li><strong>Precision Control:</strong> Use the <code>as</code> argument to explicitly request types like <code>bfloat16</code>, <code>float32</code>, or specific fixed-length strings to match external schemas.</li>
+<li><strong>Transparent Interoperability:</strong> R uses column-major order while HDF5 uses row-major. <code>h5lite</code> handles these permutations automatically, ensuring your data opens correctly in Python or Julia.</li>
+<li><strong>Metadata Preservation:</strong> R <code>names</code>, <code>row.names</code>, and <code>dimnames</code> are preserved as HDF5 dimension scales, maintaining your metadata across platforms.</li>
+<li><strong>Compression:</strong> Built-in zlib compression is supported. When enabled, <code>h5lite</code> applies a “shuffle” filter to rearrange bytes for significantly better compression of numerical data.</li>
+</ul>
+<p><img src="hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo"></p>
+</section>
+</section>
+<section id="the-engine-hdf5lib" class="level2">
+<h2 class="anchored" data-anchor-id="the-engine-hdf5lib">The Engine: <a href="[https://cmmr.github.io/hdf5lib/](https://cmmr.github.io/hdf5lib/)"><code>hdf5lib</code></a></h2>
+<p>Under the hood, <code>h5lite</code> is powered by <strong><code>hdf5lib</code></strong>. While most users won’t interact with it directly, it serves as a rock-solid foundation for R package developers.</p>
+<ul>
+<li><strong>Bundled Source:</strong> <code>hdf5lib</code> bundles the complete HDF5 2.0.0 source code. No external libraries are needed; it compiles natively during installation on MacOS, Windows, and Linux.</li>
+<li><strong>Thread-Safety:</strong> Unlike many system builds, <code>hdf5lib</code> is compiled with thread-safety enabled, allowing for safe parallel I/O via <code>RcppParallel</code> or <code>OpenMP</code>.</li>
+<li><strong>Versioning Guarantee:</strong> Developers can now specify <code>LinkingTo: hdf5lib (&gt;= 2.0)</code> in their <code>DESCRIPTION</code> file. This guarantees that HDF5 2.0 features are available on the user’s system, finally ending the “system lottery.”</li>
+</ul>
+</section>
+<section id="stability-and-minimal-footprint" class="level2">
+<h2 class="anchored" data-anchor-id="stability-and-minimal-footprint">Stability and Minimal Footprint</h2>
+<p>Both packages minimize their dependency footprint by avoiding any non-base-R imports (beyond <code>h5lite</code> linking to <code>hdf5lib</code>). This ensures higher reliability and fewer points of failure for downstream developers.</p>
+<p>To ensure a stable experience, <code>h5lite</code> maintains <strong>100% code coverage</strong>. Both packages have been rigorously validated across standard CRAN platforms (Linux, Windows, macOS) and compilers (GCC, Clang). For developers, we have prioritized memory safety by passing checks for <strong>Valgrind, ASAN, and UBSAN</strong>, ensuring that packages linking to these libraries remain free of upstream memory issues.</p>
+</section>
+<section id="comparison-at-a-glance" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-at-a-glance">Comparison at a Glance</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">h5lite / hdf5lib</th>
+<th style="text-align: left;">rhdf5 / Rhdf5lib</th>
+<th style="text-align: left;">hdf5r</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Repository</strong></td>
+<td style="text-align: left;"><strong>CRAN</strong></td>
+<td style="text-align: left;">Bioconductor</td>
+<td style="text-align: left;">CRAN</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>HDF5 Version</strong></td>
+<td style="text-align: left;"><strong>2.0.0 (Guaranteed)</strong></td>
+<td style="text-align: left;">1.10.7 (or System)</td>
+<td style="text-align: left;">System</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>API Philosophy</strong></td>
+<td style="text-align: left;"><strong>Streamlined</strong></td>
+<td style="text-align: left;">Comprehensive</td>
+<td style="text-align: left;">Comprehensive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Install Friction</strong></td>
+<td style="text-align: left;"><strong>None</strong></td>
+<td style="text-align: left;">Requires BiocManager</td>
+<td style="text-align: left;">Requires System Libs</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Thread Safety</strong></td>
+<td style="text-align: left;"><strong>Yes (Default)</strong></td>
+<td style="text-align: left;">No (Default)</td>
+<td style="text-align: left;">Varies</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="try-it-out" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-out">Try It Out</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"h5lite"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(h5lite)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".h5"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Write various R objects</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, file, <span class="st">"ints"</span>)                   <span class="co"># Integer Vector</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">I</span>(<span class="st">"example"</span>), file, <span class="st">"/"</span>, <span class="at">attr =</span> <span class="st">"id"</span>) <span class="co"># Scalar Attribute</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">9</span>), <span class="dv">3</span>, <span class="dv">3</span>), file, <span class="st">"mtx"</span>)  <span class="co"># Numeric Matrix</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">factor</span>(letters), file, <span class="st">"letters"</span>)     <span class="co"># Factor -&gt; ENUM</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>), file, <span class="st">"config"</span>)   <span class="co"># List -&gt; GROUP</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(iris, file, <span class="st">"flowers/iris"</span>)           <span class="co"># Data Frame -&gt; COMPOUND</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Write with specific type coercions</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(iris, file, <span class="st">"flowers/coerced"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">as =</span> <span class="fu">c</span>(<span class="at">Sepal.Length =</span> <span class="st">"bfloat16"</span>, <span class="at">.numeric =</span> <span class="st">"float32"</span>))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the file structure</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_str</span>(file)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For a deeper dive, explore the <a href="https://cmmr.github.io/h5lite/articles/h5lite.html">Getting Started with h5lite</a> guide and the <a href="https://cmmr.github.io/hdf5lib/">hdf5lib documentation</a>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
