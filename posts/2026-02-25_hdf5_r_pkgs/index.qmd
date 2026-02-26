@@ -1,0 +1,136 @@
+---
+title: "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage"
+author: "Daniel P. Smith"
+date: "2026-02-25"
+categories: [R, CRAN, Package, HDF5, Big Data, Database]
+image: "thumbnail.png"
+description: "New R packages on CRAN provide a straightforward way to use the HDF5 storage format without manual system library configuration."
+---
+
+<div style="text-align:center;">
+<img src="banner.png" style="width:100%; max-width:1024px; height:auto;" alt="Connecting R and HDF5" />
+</div>
+
+For years, R developers wishing to use HDF5 faced a difficult choice: accept the weight of Bioconductor dependencies or gamble on the user's local system library configuration. Today, we are excited to announce the release of **[h5lite](https://cmmr.github.io/h5lite/)** and **[hdf5lib](https://cmmr.github.io/hdf5lib/)** on CRAN. These packages provide a modern, zero-dependency interface to the HDF5 2.0 storage format, finally making high-performance hierarchical data accessible for both interactive data science and robust R package development without the traditional installation hurdles.
+
+
+## The Motivation: Solving the Installation Lottery
+
+HDF5 (Hierarchical Data Format) is a standard format for storing massive arrays and complex nested lists. However, integrating HDF5 into R workflows - especially for CRAN package developers - has historically involved two difficult paths:
+
+* **The Bioconductor Bridge:** Using [`rhdf5`](https://github.com/Huber-group-EMBL/rhdf5) is a solid option, but it requires users to navigate the `BiocManager` ecosystem. This complicates the standard `install.packages()` workflow for general-purpose CRAN packages and can lead to intermittent issues on CRAN check farms.
+
+* **The System Lottery:** The [`hdf5r`](https://github.com/hhoeflin/hdf5r) package is powerful but typically requires users to manually install HDF5 system libraries (`libhdf5-dev`). This is notoriously difficult for Windows users and creates an unpredictable environment where a package might only work if the user happens to have the right library version pre-installed.
+
+We built `h5lite` and `hdf5lib` to provide a CRAN-native ecosystem that eliminates these barriers while guaranteeing access to the latest HDF5 2.0 features.
+
+
+<img src="h5lite.png" align="right" width="179" height="200" alt="h5lite logo" />
+
+## The Interface: [`h5lite`](https://cmmr.github.io/h5lite/)
+
+`h5lite` is an opinionated, streamlined interface that handles the complexities of [type mapping and interoperability](https://cmmr.github.io/h5lite/articles/data-types.html) so you can focus on your data. It manages the following default behaviors:
+
+| R Data Type    | HDF5 Equivalent  | Description                                    |
+| :------------- | :--------------- | :--------------------------------------------- |
+| **Numeric**    | *variable*       | Selects optimal type: `uint8`, `float32`, etc. |
+| **Logical**    | `uint8`          | Stored as 0 (FALSE) or 1 (TRUE).               |
+| **Character**  | `string`         | Variable or fixed-length; UTF-8 or ASCII.      |
+| **Complex**    | `complex`        | Native HDF5 2.0+ complex numbers.              |
+| **Raw**        | `opaque`         | Raw bytes / binary data.                       |
+| **Factor**     | `enum`           | Integer indices with label mapping.            |
+| **integer64**  | `int64`          | 64-bit signed integers via `bit64` package.    |
+| **POSIXt**     | `string`         | ISO 8601 string (`YYYY-MM-DDTHH:MM:SSZ`).      |
+| **List**       | `group`          | Recursive container structure.                 |
+| **Data Frame** | `compound`       | Table of mixed types.                          |
+| **NULL**       | `null`           | Creates a placeholder.                         |
+
+### Key Features
+
+* **Smart Defaults:** The package automatically chooses efficient storage types, such as `int8` for small integers or `float64` for vectors containing `NA` values.
+
+* **Precision Control:** Use the `as` argument to explicitly request types like `bfloat16`, `float32`, or specific fixed-length strings to match external schemas.
+
+* **Transparent Interoperability:** R uses column-major order while HDF5 uses row-major. `h5lite` handles these permutations automatically, ensuring your data opens correctly in Python or Julia.
+
+* **Metadata Preservation:** R `names`, `row.names`, and `dimnames` are preserved as HDF5 dimension scales, maintaining your metadata across platforms.
+
+* **Compression:** Built-in zlib compression is supported. When enabled, `h5lite` [applies a "shuffle" filter](https://cmmr.github.io/h5lite/articles/data-types.html#compression) to rearrange bytes for significantly better compression of numerical data.
+
+
+<img src="hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo" />
+
+## The Engine: [`hdf5lib`](https://cmmr.github.io/hdf5lib/)
+
+Under the hood, `h5lite` is powered by **`hdf5lib`**. While most users won't interact with it directly, it serves as a rock-solid foundation for R package developers.
+
+* **Bundled Source:** `hdf5lib` bundles the complete HDF5 2.0.0 source code. No external libraries are needed; it compiles natively during installation on MacOS, Windows, and Linux.
+
+* **Thread-Safety:** Unlike many system builds, `hdf5lib` is compiled with thread-safety enabled, allowing for [safe parallel I/O](https://cmmr.github.io/hdf5lib/articles/parallelism.html) via `RcppParallel` or `OpenMP`.
+
+* **Versioning Guarantee:** Developers can now specify `LinkingTo: hdf5lib (>= 2.0)` in their `DESCRIPTION` file. This guarantees that HDF5 2.0 features are available on the user's system, finally ending the "system lottery." [API versioning](https://cmmr.github.io/hdf5lib/articles/api-versioning.html) also safeguards against breaking changes in future HDF5 releases.
+
+
+## Stability and Minimal Footprint
+
+Reliability is paramount for a storage interface. Both packages minimize their dependency footprint by **not importing any other R packages**.
+
+To ensure a stable experience, `h5lite` maintains a **100% code coverage test suite**. Both packages have been rigorously validated across standard CRAN platforms (Linux, Windows, macOS) and compilers (GCC, Clang). For developers, we have prioritized memory safety by passing checks for **Valgrind, ASAN, and UBSAN**, ensuring that packages linking to these libraries remain free of upstream memory issues.
+
+## Comparison at a Glance
+
+| Feature              | h5lite / hdf5lib       | rhdf5 / Rhdf5lib   | hdf5r         |
+| :------------------- | :--------------------- | :----------------- | :------------ |
+| **Repository**       | **CRAN**               | Bioconductor       | CRAN          |
+| **HDF5 Version**     | **2.0.0 (Guaranteed)** | 1.10.7 (or System) | System        |
+| **API Philosophy**   | **Streamlined**        | Comprehensive      | Comprehensive |
+| **Install Friction** | **None**               | BiocManager        | System Libs   |
+| **Thread Safety**    | **Yes (Default)**      | No (Default)       | Varies        |
+
+
+## Try It Out
+
+```r
+install.packages("h5lite")
+
+library(h5lite)
+file <- tempfile(fileext = ".h5")
+
+# Write various R objects
+h5_write(1:10, file, "ints")                   # Integer Vector
+h5_write(I("example"), file, "/", attr = "id") # Scalar Attribute
+h5_write(matrix(rnorm(9), 3, 3), file, "mtx")  # Numeric Matrix
+h5_write(factor(letters), file, "letters")     # Factor -> ENUM
+h5_write(list(a = 1, b = 2), file, "config")   # List -> GROUP
+h5_write(iris, file, "flowers/iris")           # Data Frame -> COMPOUND
+
+# Write with specific type coercions
+h5_write(iris, file, "flowers/coerced",
+  as = c(Sepal.Length = "bfloat16", .numeric = "float32"))
+
+# Inspect the file structure
+h5_str(file)
+#> /
+#> ├── @id <utf8[7] scalar>
+#> ├── mtx <float64 × 3 × 3>
+#> ├── letters <enum × 26>
+#> ├── config/
+#> │   ├── a <uint8 × 1>
+#> │   └── b <uint8 × 1>
+#> ├── ints <uint8 × 10>
+#> └── flowers/
+#>     ├── iris <compound[5] × 150>
+#>     │   ├── $Sepal.Length <float64>
+#>     │   ├── $Sepal.Width <float64>
+#>     │   ├── $Petal.Length <float64>
+#>     │   ├── $Petal.Width <float64>
+#>     │   └── $Species <enum>
+#>     └── coerced <compound[5] × 150>
+#>         ├── $Sepal.Length <bfloat16>
+#>         ├── $Sepal.Width <float32>
+#>         ├── $Petal.Length <float32>
+#>         ├── $Petal.Width <float32>
+#>         └── $Species <enum>
+```
+
+For a deeper dive, explore the [Getting Started with h5lite](https://cmmr.github.io/h5lite/articles/h5lite.html) guide and the [hdf5lib documentation](https://cmmr.github.io/hdf5lib/).

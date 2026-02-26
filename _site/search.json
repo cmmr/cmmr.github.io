@@ -1,0 +1,170 @@
+[
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html",
+    "href": "posts/2026-02-12_h5lite/index.html",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "",
+    "text": "For years, R developers wishing to use HDF5 faced a difficult choice: accept the weight of Bioconductor dependencies or gamble on the user’s local system library configuration. Today, we are excited to announce the release of h5lite and hdf5lib on CRAN. These packages provide a modern, zero-dependency interface to the HDF5 2.0 storage format, finally making high-performance hierarchical data accessible for both interactive data science and robust R package development without the traditional installation hurdles."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#the-repo-gap-why-hdf5lib",
+    "href": "posts/2026-02-12_h5lite/index.html#the-repo-gap-why-hdf5lib",
+    "title": "Announcing h5lite & hdf5lib: HDF5 2.0 for R, Pain-Free",
+    "section": "The “Repo Gap”: Why hdf5lib?",
+    "text": "The “Repo Gap”: Why hdf5lib?\nIf you are a package developer, you might ask: “Doesn’t Rhdf5lib already bundle HDF5?”\nYes, it does. But Rhdf5lib is a Bioconductor package. If you link your CRAN package to it, you break the standard installation workflow.\n\nThe User Friction: If a user runs install.packages(\"YourPackage\"), it will likely fail because R doesn’t search Bioconductor by default. You have to instruct users to install BiocManager and manually handle dependencies first.\nThe Check Farm: Relying on cross-repository links can sometimes lead to failures on CRAN build servers if the Bioconductor index isn’t perfectly synchronized on that specific build flavor.\n\nhdf5lib is the CRAN-native answer. It lives on CRAN. It builds on CRAN. It installs with a single command."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#the-versioning-guarantee",
+    "href": "posts/2026-02-12_h5lite/index.html#the-versioning-guarantee",
+    "title": "Announcing h5lite & hdf5lib: HDF5 2.0 for R, Pain-Free",
+    "section": "The Versioning Guarantee",
+    "text": "The Versioning Guarantee\nWith existing wrappers like hdf5r or rhdf5, you are often playing the “System Lottery.” Your package might link against HDF5 1.10 on one user’s machine, 1.12 on another, and 1.8 on a legacy server. This makes debugging a nightmare when features or bugs differ across versions.\nhdf5lib eliminates this ambiguity.\n1. Explicit Versioning The package version matches the bundled library version. LinkingTo: hdf5lib (&gt;= 2.0.0) or Imports: h5lite (&gt;= 2.0.0) guarantees that HDF5 2.0.0 is available. You know exactly what features your code can rely on.\n2. Future-Proofing with the api Argument What happens when HDF5 2.1 comes out? HDF5 is known for breaking changes, but hdf5lib protects you. When you link to hdf5lib, you can request a specific API compatibility level in your src/Makevars.\n# In your src/Makevars\nPKG_CPPFLAGS = `$(R_HOME)/bin/Rscript -e \"cat(hdf5lib::c_flags(api = 2.0))\"`\nPKG_LIBS     = `$(R_HOME)/bin/Rscript -e \"cat(hdf5lib::ld_flags(api = 2.0))\"`\nEven if hdf5lib upgrades to version 2.5 in the future, your package will continue to see the HDF5 2.0 API it was designed for."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#the-interface-h5lite",
+    "href": "posts/2026-02-12_h5lite/index.html#the-interface-h5lite",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "The Interface: h5lite",
+    "text": "The Interface: h5lite\nh5lite is an opinionated, streamlined interface that handles the complexities of type mapping and interoperability so you can focus on your data. It manages the following default behaviors:\n\n\n\n\n\n\n\n\nR Data Type\nHDF5 Equivalent\nDescription\n\n\n\n\nNumeric\nvariable\nSelects optimal type: uint8, float32, etc.\n\n\nLogical\nuint8\nStored as 0 (FALSE) or 1 (TRUE).\n\n\nCharacter\nstring\nVariable or fixed-length; UTF-8 or ASCII.\n\n\nComplex\ncomplex\nNative HDF5 2.0+ complex numbers.\n\n\nRaw\nopaque\nRaw bytes / binary data.\n\n\nFactor\nenum\nInteger indices with label mapping.\n\n\ninteger64\nint64\n64-bit signed integers via bit64 package.\n\n\nPOSIXt\nstring\nISO 8601 string (YYYY-MM-DDTHH:MM:SSZ).\n\n\nList\ngroup\nRecursive container structure.\n\n\nData Frame\ncompound\nTable of mixed types.\n\n\nNULL\nnull\nCreates a placeholder.\n\n\n\n\nKey Features\n\nSmart Defaults: The package automatically chooses efficient storage types, such as int8 for small integers or float64 for vectors containing NA values.\nPrecision Control: Use the as argument to explicitly request types like bfloat16, float32, or specific fixed-length strings to match external schemas.\nTransparent Interoperability: R uses column-major order while HDF5 uses row-major. h5lite handles these permutations automatically, ensuring your data opens correctly in Python or Julia.\nMetadata Preservation: R names, row.names, and dimnames are preserved as HDF5 dimension scales, maintaining your metadata across platforms.\nCompression: Built-in zlib compression is supported. When enabled, h5lite applies a “shuffle” filter to rearrange bytes for significantly better compression of numerical data."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#comparison-at-a-glance",
+    "href": "posts/2026-02-12_h5lite/index.html#comparison-at-a-glance",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "Comparison at a Glance",
+    "text": "Comparison at a Glance\n\n\n\n\n\n\n\n\n\nFeature\nh5lite / hdf5lib\nrhdf5 / Rhdf5lib\nhdf5r\n\n\n\n\nRepository\nCRAN\nBioconductor\nCRAN\n\n\nHDF5 Version\n2.0.0 (Guaranteed)\n1.10.7 (or System)\nSystem\n\n\nAPI Philosophy\nStreamlined\nComprehensive\nComprehensive\n\n\nInstall Friction\nNone\nRequires BiocManager\nRequires System Libs\n\n\nThread Safety\nYes (Default)\nNo (Default)\nVaries"
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#availability",
+    "href": "posts/2026-02-12_h5lite/index.html#availability",
+    "title": "Announcing h5lite & hdf5lib: HDF5 2.0 for R",
+    "section": "Availability",
+    "text": "Availability\nFor Users:\ninstall.packages(\"h5lite\")\nFor Developers (linking to the C library):\ninstall.packages(\"hdf5lib\")\nCheck out the documentation at cmmr.github.io/h5lite and cmmr.github.io/hdf5lib to get started."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#for-r-users-h5lite",
+    "href": "posts/2026-02-12_h5lite/index.html#for-r-users-h5lite",
+    "title": "Beyond .rds: Painless HDF5 and Cross-Language Storage with h5lite & hdf5lib",
+    "section": "For R Users: h5lite",
+    "text": "For R Users: h5lite\nFor the vast majority of R users, HDF5 is a storage format, not a lifestyle. h5lite takes an opinionated approach, mapping R objects directly to HDF5 equivalents using smart defaults, while giving you granular control when you need it.\n\nThe “It Just Works” API\n1. Smart Defaults and Full Control h5lite inspects your data and chooses the safest, most compact HDF5 data type automatically—saving space by storing small integers as int8, for example. But when you need to conform to a strict specification, the as argument gives you complete control. You can even apply precise type mapping column-by-column for Data Frames.\nlibrary(h5lite)\nfile &lt;- tempfile(fileext = \".h5\")\n\ndf &lt;- data.frame(\n  id    = 1:5, \n  score = c(1.1, 2.2, 3.3, 4.4, 5.5),\n  note  = c(\"a\", \"b\", \"c\", \"d\", \"e\")\n)\n\n# Store 'id' as 16-bit integer, 'score' as 32-bit float, and 'note' as ascii\nh5_write(df, file, \"experiment_data\", \n         as = c(id = \"uint16\", score = \"float32\", note = \"ascii\"))\n\n# Inspect the file structure cleanly\nh5_str(file)\n#&gt; /\n#&gt; └── experiment_data &lt;compound[3] × 5&gt;\n#&gt;     ├── $id &lt;uint16&gt;\n#&gt;     ├── $score &lt;float32&gt;\n#&gt;     └── $note &lt;ascii&gt;\n2. Predictable Type Translation h5lite provides a strict, predictable translation layer between R’s dynamic types and HDF5’s strict static types.\n\n\n\nR Class\nHDF5 Format\n\n\n\n\nNumeric\nfloat64\n\n\nInteger\nint or uint\n\n\nLogical\nuint8\n\n\nCharacter\nVariable UTF-8 or Fixed\n\n\nComplex\nCOMPLEX_IEEE_F64LE\n\n\nRaw\nOPAQUE\n\n\nFactor\nENUM\n\n\nPOSIXt\nSTRING\n\n\ninteger64\nint64\n\n\nData Frame\nCOMPOUND\n\n\nList\nGROUP\n\n\nMatrix/Array\nN-dimensional Dataset\n\n\nNULL\nNULL Dataspace\n\n\n\nh5lite provides smart defaults including proper NA handling across all of these types, as well as full type control when needed. You can explore the specifics in our detailed articles on Atomic Vectors, Data Types, and Data Frames.\n3. Cross-Language Interoperability R uses column-major memory order for matrices, while HDF5 and Python use row-major order. h5lite handles this transparently by automatically permuting dimensions during read/write operations. This ensures your matrices and arrays retain their exact shape and layout whether you open them in R, Python (h5py), or standard HDF5 command-line tools."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#for-package-developers-hdf5lib",
+    "href": "posts/2026-02-12_h5lite/index.html#for-package-developers-hdf5lib",
+    "title": "Beyond .rds: Painless HDF5 and Cross-Language Storage with h5lite & hdf5lib",
+    "section": "For Package Developers: hdf5lib",
+    "text": "For Package Developers: hdf5lib\nUnder the hood, h5lite is powered by hdf5lib.\nIf you are developing your own R packages and need to interact with the HDF5 C API (via LinkingTo: hdf5lib), this package provides a rock-solid, bundled, and CRAN-native foundation.\n\n1. Bundled HDF5 2.0.0\nhdf5lib bundles the brand-new HDF5 2.0.0 release. This means your package users don’t need to install system libraries (no apt-get install libhdf5-dev). It compiles natively on Windows, Mac, and Linux.\n\n\n2. Thread-Safety for Parallel R\nUnlike many default system builds, hdf5lib is compiled with thread-safety enabled. If you are building modern parallel tools (using RcppParallel, future, or standard multicore computing), linking to hdf5lib helps prevent the segmentation faults that plague standard builds.\n\n\n3. The Versioning Guarantee\nWhen you rely on system HDF5 libraries, you play the “System Lottery.” Your code might run against HDF5 1.10 on one machine and 1.14 on another.\nhdf5lib explicitly versions its API. hdf5lib (&gt;= 2.0.0) guarantees HDF5 2.0.0 features. Even better, it future-proofs your code. If hdf5lib upgrades to HDF5 2.1 in the future, you can request backward compatibility in your src/Makevars so breaking upstream changes don’t break your package:\n# In your src/Makevars\nPKG_CPPFLAGS = $(shell \"$(R_HOME)/bin/Rscript\" -e \"hdf5lib::c_flags(api='2.0')\")"
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#the-ecosystem-context",
+    "href": "posts/2026-02-12_h5lite/index.html#the-ecosystem-context",
+    "title": "Beyond .rds: Zero-Dependency HDF5 2.0 and Cross-Language Storage in R",
+    "section": "The Ecosystem Context",
+    "text": "The Ecosystem Context\nThe R ecosystem has existing, excellent tools like rhdf5 and hdf5r. So where do h5lite and hdf5lib fit in?\nWe built these packages to solve specific friction points regarding repository location and installation workflows.\n\nThe “Repo Gap”: rhdf5 and its backend Rhdf5lib are fantastic, but they live on Bioconductor. For developers distributing general data science packages on CRAN, LinkingTo a Bioconductor package breaks the standard install.packages() workflow, requiring users to manually install and run BiocManager first. It can also cause sporadic failures on CRAN’s automated check farms.\nThe “System Lottery” & Dependencies: When you rely on system HDF5 libraries, you play the “System Lottery.” Packages like hdf5r require users to install these system libraries themselves. Even Rhdf5lib, which bundles an older HDF5 1.10.7 source tarball and compiles it during installation, can optionally be configured to link against a pre-existing system library if one is found. This means you can’t always guarantee exactly which version of HDF5 your code is running against in the wild.\n\nhdf5lib is the CRAN-native answer. It brings the reliability of a bundled source build directly to the CRAN ecosystem, acting as a stable, cross-platform bridge that explicitly guarantees HDF5 2.0.0 features.\n\nComparison at a Glance\n\n\n\n\n\n\n\n\n\nFeature\nh5lite / hdf5lib\nrhdf5 / Rhdf5lib\nhdf5r\n\n\n\n\nRepository\nCRAN\nBioconductor\nCRAN\n\n\nHDF5 Version\n2.0.0 (Guaranteed)\n1.10.7 (or System)\nSystem\n\n\nAPI Philosophy\nSimple\nComprehensive\nComprehensive\n\n\nInstall Friction\nNone\nBiocManager\nSys Libs\n\n\nThread Safety\nYes (Default)\nNo (Default)\nVaries"
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#what-is-hdf5",
+    "href": "posts/2026-02-12_h5lite/index.html#what-is-hdf5",
+    "title": "Beyond .rds: Zero-Dependency HDF5 2.0 and Cross-Language Storage in R",
+    "section": "What is HDF5?",
+    "text": "What is HDF5?\n[cite_start]HDF5 (Hierarchical Data Format) is essentially a file system within a single file. [cite: 9] [cite_start]Instead of cluttering folders with dozens of .csv or .rds files, HDF5 allows you to store matrices, tables, and deeply nested lists (groups) inside one highly compressed, universally standardized .h5 file. [cite: 10] [cite_start]It is natively readable by nearly every programming language, making it the gold standard for sharing data between R, Python, Julia, and C++. [cite: 11]"
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#the-engine-hdf5lib",
+    "href": "posts/2026-02-12_h5lite/index.html#the-engine-hdf5lib",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "The Engine: hdf5lib",
+    "text": "The Engine: hdf5lib\nUnder the hood, h5lite is powered by hdf5lib. While most users won’t interact with it directly, it serves as a rock-solid foundation for R package developers.\n\nBundled Source: hdf5lib bundles the complete HDF5 2.0.0 source code. No external libraries are needed; it compiles natively during installation on MacOS, Windows, and Linux.\nThread-Safety: Unlike many system builds, hdf5lib is compiled with thread-safety enabled, allowing for safe parallel I/O via RcppParallel or OpenMP.\nVersioning Guarantee: Developers can now specify LinkingTo: hdf5lib (&gt;= 2.0) in their DESCRIPTION file. This guarantees that HDF5 2.0 features are available on the user’s system, finally ending the “system lottery.”"
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#documentation",
+    "href": "posts/2026-02-12_h5lite/index.html#documentation",
+    "title": "Beyond .rds: Zero-Dependency HDF5 2.0 and Cross-Language Storage in R",
+    "section": "Documentation",
+    "text": "Documentation\nExtensive documentation for both packages is available online. Check out the Getting Started with h5lite guide and the hdf5lib documentation to dive in."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#try-it-out",
+    "href": "posts/2026-02-12_h5lite/index.html#try-it-out",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "Try It Out",
+    "text": "Try It Out\ninstall.packages(\"h5lite\")\n\nlibrary(h5lite)\nfile &lt;- tempfile(fileext = \".h5\")\n\n# Write various R objects\nh5_write(1:10, file, \"ints\")                   # Integer Vector\nh5_write(I(\"example\"), file, \"/\", attr = \"id\") # Scalar Attribute\nh5_write(matrix(rnorm(9), 3, 3), file, \"mtx\")  # Numeric Matrix\nh5_write(factor(letters), file, \"letters\")     # Factor -&gt; ENUM\nh5_write(list(a = 1, b = 2), file, \"config\")   # List -&gt; GROUP\nh5_write(iris, file, \"flowers/iris\")           # Data Frame -&gt; COMPOUND\n\n# Write with specific type coercions\nh5_write(iris, file, \"flowers/coerced\",\n  as = c(Sepal.Length = \"bfloat16\", .numeric = \"float32\"))\n\n# Inspect the file structure\nh5_str(file)\nFor a deeper dive, explore the Getting Started with h5lite guide and the hdf5lib documentation."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#the-motivation-solving-the-dependency-dilemma",
+    "href": "posts/2026-02-12_h5lite/index.html#the-motivation-solving-the-dependency-dilemma",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "The Motivation: Solving the “Dependency Dilemma”",
+    "text": "The Motivation: Solving the “Dependency Dilemma”\nHDF5 (Hierarchical Data Format) is a cornerstone of modern data science, acting as a high-performance “file system within a file” for massive arrays and complex nested lists. However, integrating HDF5 into R workflows—especially for CRAN package developers—has historically involved significant friction.\nThe catalyst for these new packages was a practical challenge: adding HDF5 support to the rbiom package. To ensure a seamless experience for users, we needed a solution that avoided two common hurdles:\n\nExternal Repositories: While rhdf5 is an excellent tool, its presence on Bioconductor leads to issues on CRAN check farms and complicates the standard install.packages() workflow for general-purpose CRAN packages.\nSystem Libraries: The hdf5r package provides a powerful interface but requires users to manually install HDF5 system libraries (libhdf5-dev), which can be a daunting task for many users, particularly those on Windows.\n\nWe built h5lite and hdf5lib to provide a CRAN-native ecosystem that eliminates these barriers while guaranteeing access to the latest HDF5 2.0 features."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#the-motivation-solving-the-installation-lottery",
+    "href": "posts/2026-02-12_h5lite/index.html#the-motivation-solving-the-installation-lottery",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "The Motivation: Solving the Installation Lottery",
+    "text": "The Motivation: Solving the Installation Lottery\nHDF5 (Hierarchical Data Format) is a standard for storing massive arrays and complex nested lists. However, integrating HDF5 into R workflows—especially for CRAN package developers—has historically involved two difficult paths:\n\nThe Bioconductor Bridge: Using rhdf5 is a solid option, but it requires users to navigate the BiocManager ecosystem. This complicates the standard install.packages() workflow for general-purpose CRAN packages and can lead to intermittent issues on CRAN check farms.\nThe System Lottery: The hdf5r package is powerful but typically requires users to manually install HDF5 system libraries (libhdf5-dev). This is notoriously difficult for Windows users and creates an unpredictable environment where a package might only work if the user happens to have the right library version pre-installed.\n\nThe catalyst for these new packages was a practical challenge: adding HDF5 support to the rbiom package. We built h5lite and hdf5lib to provide a CRAN-native ecosystem that eliminates these barriers while guaranteeing access to the latest HDF5 2.0 features."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#rigorous-testing-and-stability",
+    "href": "posts/2026-02-12_h5lite/index.html#rigorous-testing-and-stability",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "Rigorous Testing and Stability",
+    "text": "Rigorous Testing and Stability\nReliability is paramount for a storage interface. Both packages minimize their dependency footprint by not importing any non-base-R packages (beyond h5lite linking to hdf5lib). Furthermore, h5lite maintains 100% code coverage in its test suite.\nBoth packages have passed R CMD check --as-cran across an extensive array of environments: * Winbuilder: Windows Server 2022 (release, devel, oldrelease). * GitHub Actions: ubuntu-latest, macos-latest, windows-latest, and various specific versions (release, devel, oldrel, 4.2). * RHUB: Checked against clang-asan, clang-ubsan, gcc-asan, and valgrind. These checks ensure that your own packages won’t fail CRAN checks due to memory oversights in these foundational libraries. * Broad Compiler Support: Tested with gcc (13-15), clang (16-20), intel, and modern standards like c23. * Additional Platforms: Alpine Linux (musl), Apple M1 (Silicon), and local Windows 11 (R 4.5.2) environments."
+  },
+  {
+    "objectID": "posts/2026-02-12_h5lite/index.html#stability-and-minimal-footprint",
+    "href": "posts/2026-02-12_h5lite/index.html#stability-and-minimal-footprint",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "Stability and Minimal Footprint",
+    "text": "Stability and Minimal Footprint\nBoth packages minimize their dependency footprint by avoiding any non-base-R imports (beyond h5lite linking to hdf5lib). This ensures higher reliability and fewer points of failure for downstream developers.\nTo ensure a stable experience, h5lite maintains 100% code coverage. Both packages have been rigorously validated across standard CRAN platforms (Linux, Windows, macOS) and compilers (GCC, Clang). For developers, we have prioritized memory safety by passing checks for Valgrind, ASAN, and UBSAN, ensuring that packages linking to these libraries remain free of upstream memory issues."
+  },
+  {
+    "objectID": "posts/2026-02-25_hdf5_r_pkgs/index.html",
+    "href": "posts/2026-02-25_hdf5_r_pkgs/index.html",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "",
+    "text": "For years, R developers wishing to use HDF5 faced a difficult choice: accept the weight of Bioconductor dependencies or gamble on the user’s local system library configuration. Today, we are excited to announce the release of h5lite and hdf5lib on CRAN. These packages provide a modern, zero-dependency interface to the HDF5 2.0 storage format, finally making high-performance hierarchical data accessible for both interactive data science and robust R package development without the traditional installation hurdles."
+  },
+  {
+    "objectID": "posts/2026-02-25_hdf5_r_pkgs/index.html#the-motivation-solving-the-installation-lottery",
+    "href": "posts/2026-02-25_hdf5_r_pkgs/index.html#the-motivation-solving-the-installation-lottery",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "The Motivation: Solving the Installation Lottery",
+    "text": "The Motivation: Solving the Installation Lottery\nHDF5 (Hierarchical Data Format) is a standard format for storing massive arrays and complex nested lists. However, integrating HDF5 into R workflows - especially for CRAN package developers - has historically involved two difficult paths:\n\nThe Bioconductor Bridge: Using rhdf5 is a solid option, but it requires users to navigate the BiocManager ecosystem. This complicates the standard install.packages() workflow for general-purpose CRAN packages and can lead to intermittent issues on CRAN check farms.\nThe System Lottery: The hdf5r package is powerful but typically requires users to manually install HDF5 system libraries (libhdf5-dev). This is notoriously difficult for Windows users and creates an unpredictable environment where a package might only work if the user happens to have the right library version pre-installed.\n\nWe built h5lite and hdf5lib to provide a CRAN-native ecosystem that eliminates these barriers while guaranteeing access to the latest HDF5 2.0 features."
+  },
+  {
+    "objectID": "posts/2026-02-25_hdf5_r_pkgs/index.html#the-interface-h5lite",
+    "href": "posts/2026-02-25_hdf5_r_pkgs/index.html#the-interface-h5lite",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "The Interface: h5lite",
+    "text": "The Interface: h5lite\nh5lite is an opinionated, streamlined interface that handles the complexities of type mapping and interoperability so you can focus on your data. It manages the following default behaviors:\n\n\n\n\n\n\n\n\nR Data Type\nHDF5 Equivalent\nDescription\n\n\n\n\nNumeric\nvariable\nSelects optimal type: uint8, float32, etc.\n\n\nLogical\nuint8\nStored as 0 (FALSE) or 1 (TRUE).\n\n\nCharacter\nstring\nVariable or fixed-length; UTF-8 or ASCII.\n\n\nComplex\ncomplex\nNative HDF5 2.0+ complex numbers.\n\n\nRaw\nopaque\nRaw bytes / binary data.\n\n\nFactor\nenum\nInteger indices with label mapping.\n\n\ninteger64\nint64\n64-bit signed integers via bit64 package.\n\n\nPOSIXt\nstring\nISO 8601 string (YYYY-MM-DDTHH:MM:SSZ).\n\n\nList\ngroup\nRecursive container structure.\n\n\nData Frame\ncompound\nTable of mixed types.\n\n\nNULL\nnull\nCreates a placeholder.\n\n\n\n\nKey Features\n\nSmart Defaults: The package automatically chooses efficient storage types, such as int8 for small integers or float64 for vectors containing NA values.\nPrecision Control: Use the as argument to explicitly request types like bfloat16, float32, or specific fixed-length strings to match external schemas.\nTransparent Interoperability: R uses column-major order while HDF5 uses row-major. h5lite handles these permutations automatically, ensuring your data opens correctly in Python or Julia.\nMetadata Preservation: R names, row.names, and dimnames are preserved as HDF5 dimension scales, maintaining your metadata across platforms.\nCompression: Built-in zlib compression is supported. When enabled, h5lite applies a “shuffle” filter to rearrange bytes for significantly better compression of numerical data."
+  },
+  {
+    "objectID": "posts/2026-02-25_hdf5_r_pkgs/index.html#the-engine-hdf5lib",
+    "href": "posts/2026-02-25_hdf5_r_pkgs/index.html#the-engine-hdf5lib",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "The Engine: hdf5lib",
+    "text": "The Engine: hdf5lib\nUnder the hood, h5lite is powered by hdf5lib. While most users won’t interact with it directly, it serves as a rock-solid foundation for R package developers.\n\nBundled Source: hdf5lib bundles the complete HDF5 2.0.0 source code. No external libraries are needed; it compiles natively during installation on MacOS, Windows, and Linux.\nThread-Safety: Unlike many system builds, hdf5lib is compiled with thread-safety enabled, allowing for safe parallel I/O via RcppParallel or OpenMP.\nVersioning Guarantee: Developers can now specify LinkingTo: hdf5lib (&gt;= 2.0) in their DESCRIPTION file. This guarantees that HDF5 2.0 features are available on the user’s system, finally ending the “system lottery.” API versioning also safeguards against breaking changes in future HDF5 releases."
+  },
+  {
+    "objectID": "posts/2026-02-25_hdf5_r_pkgs/index.html#stability-and-minimal-footprint",
+    "href": "posts/2026-02-25_hdf5_r_pkgs/index.html#stability-and-minimal-footprint",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "Stability and Minimal Footprint",
+    "text": "Stability and Minimal Footprint\nReliability is paramount for a storage interface. Both packages minimize their dependency footprint by not importing any other R packages.\nTo ensure a stable experience, h5lite maintains a 100% code coverage test suite. Both packages have been rigorously validated across standard CRAN platforms (Linux, Windows, macOS) and compilers (GCC, Clang). For developers, we have prioritized memory safety by passing checks for Valgrind, ASAN, and UBSAN, ensuring that packages linking to these libraries remain free of upstream memory issues."
+  },
+  {
+    "objectID": "posts/2026-02-25_hdf5_r_pkgs/index.html#comparison-at-a-glance",
+    "href": "posts/2026-02-25_hdf5_r_pkgs/index.html#comparison-at-a-glance",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "Comparison at a Glance",
+    "text": "Comparison at a Glance\n\n\n\n\n\n\n\n\n\nFeature\nh5lite / hdf5lib\nrhdf5 / Rhdf5lib\nhdf5r\n\n\n\n\nRepository\nCRAN\nBioconductor\nCRAN\n\n\nHDF5 Version\n2.0.0 (Guaranteed)\n1.10.7 (or System)\nSystem\n\n\nAPI Philosophy\nStreamlined\nComprehensive\nComprehensive\n\n\nInstall Friction\nNone\nBiocManager\nSystem Libs\n\n\nThread Safety\nYes (Default)\nNo (Default)\nVaries"
+  },
+  {
+    "objectID": "posts/2026-02-25_hdf5_r_pkgs/index.html#try-it-out",
+    "href": "posts/2026-02-25_hdf5_r_pkgs/index.html#try-it-out",
+    "title": "Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage",
+    "section": "Try It Out",
+    "text": "Try It Out\ninstall.packages(\"h5lite\")\n\nlibrary(h5lite)\nfile &lt;- tempfile(fileext = \".h5\")\n\n# Write various R objects\nh5_write(1:10, file, \"ints\")                   # Integer Vector\nh5_write(I(\"example\"), file, \"/\", attr = \"id\") # Scalar Attribute\nh5_write(matrix(rnorm(9), 3, 3), file, \"mtx\")  # Numeric Matrix\nh5_write(factor(letters), file, \"letters\")     # Factor -&gt; ENUM\nh5_write(list(a = 1, b = 2), file, \"config\")   # List -&gt; GROUP\nh5_write(iris, file, \"flowers/iris\")           # Data Frame -&gt; COMPOUND\n\n# Write with specific type coercions\nh5_write(iris, file, \"flowers/coerced\",\n  as = c(Sepal.Length = \"bfloat16\", .numeric = \"float32\"))\n\n# Inspect the file structure\nh5_str(file)\n#&gt; /\n#&gt; ├── @id &lt;utf8[7] scalar&gt;\n#&gt; ├── mtx &lt;float64 × 3 × 3&gt;\n#&gt; ├── letters &lt;enum × 26&gt;\n#&gt; ├── config/\n#&gt; │   ├── a &lt;uint8 × 1&gt;\n#&gt; │   └── b &lt;uint8 × 1&gt;\n#&gt; ├── ints &lt;uint8 × 10&gt;\n#&gt; └── flowers/\n#&gt;     ├── iris &lt;compound[5] × 150&gt;\n#&gt;     │   ├── $Sepal.Length &lt;float64&gt;\n#&gt;     │   ├── $Sepal.Width &lt;float64&gt;\n#&gt;     │   ├── $Petal.Length &lt;float64&gt;\n#&gt;     │   ├── $Petal.Width &lt;float64&gt;\n#&gt;     │   └── $Species &lt;enum&gt;\n#&gt;     └── coerced &lt;compound[5] × 150&gt;\n#&gt;         ├── $Sepal.Length &lt;bfloat16&gt;\n#&gt;         ├── $Sepal.Width &lt;float32&gt;\n#&gt;         ├── $Petal.Length &lt;float32&gt;\n#&gt;         ├── $Petal.Width &lt;float32&gt;\n#&gt;         └── $Species &lt;enum&gt;\nFor a deeper dive, explore the Getting Started with h5lite guide and the hdf5lib documentation."
+  }
+]
