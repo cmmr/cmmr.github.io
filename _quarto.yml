@@ -43,9 +43,9 @@ website:
   # Links to RSS Aggregators
   margin-header: |
     **Featured On**
-    
     <a href="https://www.r-bloggers.com/" class="text-muted"><small>R-bloggers</small></a><br>
     <a href="https://rweekly.org/" class="text-muted"><small>R Weekly</small></a>
+    <br>
 
   # Footer with Official Info
   page-footer:
