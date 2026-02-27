@@ -1,8 +1,17 @@
 /* Sidebar repository descriptions */
-.repo-desc {
+
+.menu-text>strong {
+  display: block; /* Ensures it sits on its own line */
+  margin-top: 10px; /* Adds space between items */
+}
+
+.menu-text>small {
   font-size: 0.85em;
   color: #6c757d; /* Muted grey to be less distracting */
   line-height: 1.2;
   display: block; /* Ensures it sits on its own line */
-  margin-bottom: 8px; /* Adds space between items */
+}
+
+.sidebar-divider {
+  margin: 1rem 0 !important;
 }
