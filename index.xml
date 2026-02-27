@@ -10,11 +10,11 @@
 <atom:link href="https://cmmr.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Wed, 25 Feb 2026 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 27 Feb 2026 00:00:00 GMT</lastBuildDate>
 <item>
-  <title>Announcing h5lite and hdf5lib: A New Zero-Dependency Interface to HDF5 Storage</title>
+  <title>Announcing h5lite and hdf5lib: High-Performance HDF5 Storage for the CRAN Ecosystem</title>
   <dc:creator>Daniel P. Smith</dc:creator>
-  <link>https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/</link>
+  <link>https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/</link>
   <description><![CDATA[ 
 
 
@@ -23,18 +23,29 @@
 
 
 <div style="text-align:center;">
-<p><img src="https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/banner.png" style="width:100%; max-width:1024px; height:auto;" alt="Connecting R and HDF5"></p>
+<p><img src="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/banner.png" style="width:100%; max-width:1024px; height:auto;" alt="Connecting R and HDF5"></p>
 </div>
-<p>For years, R developers wishing to use HDF5 faced a difficult choice: accept the weight of Bioconductor dependencies or gamble on the user’s local system library configuration. Today, we are excited to announce the release of <strong><a href="https://cmmr.github.io/h5lite/">h5lite</a></strong> and <strong><a href="https://cmmr.github.io/hdf5lib/">hdf5lib</a></strong> on CRAN. These packages provide a modern, zero-dependency interface to the HDF5 2.0 storage format, finally making high-performance hierarchical data accessible for both interactive data science and robust R package development without the traditional installation hurdles.</p>
-<section id="the-motivation-solving-the-installation-lottery" class="level2">
-<h2 class="anchored" data-anchor-id="the-motivation-solving-the-installation-lottery">The Motivation: Solving the Installation Lottery</h2>
-<p>HDF5 (Hierarchical Data Format) is a standard format for storing massive arrays and complex nested lists. However, integrating HDF5 into R workflows - especially for CRAN package developers - has historically involved two difficult paths:</p>
+<p>For years, the R ecosystem has been missing a critical piece of infrastructure: a high-performance, hierarchical data storage API that is actually suitable for use within other CRAN packages. While HDF5 is the global standard for sharing massive, complex datasets across languages like Python, C++, and Julia, R developers have historically been forced to choose between heavy Bioconductor dependencies or unreliable system library configurations.</p>
+<p>Today, we are excited to announce the release of <strong><a href="https://cmmr.github.io/h5lite/">h5lite</a></strong> and <strong><a href="https://cmmr.github.io/hdf5lib/">hdf5lib</a></strong> on CRAN. These packages provide a modern, zero-dependency interface to the HDF5 2.0 storage format, finally making high-performance data storage accessible for both interactive data science and robust R package development.</p>
+<section id="what-is-hdf5-the-supercharged-r-list-analogy" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-hdf5-the-supercharged-r-list-analogy">What is HDF5? The “Supercharged R List” Analogy</h2>
+<p>If you aren’t familiar with HDF5, the easiest way to think about it is as a <strong>persistent, cross-platform R <code>list</code></strong>.</p>
+<p>In R, a <code>list</code> is powerful because it is heterogeneous: you can store a matrix of numbers, a data frame of metadata, and a nested list of configuration settings all in one object. HDF5 brings this same flexibility to your hard drive. It allows you to:</p>
 <ul>
-<li><p><strong>The Bioconductor Bridge:</strong> Using <a href="https://github.com/Huber-group-EMBL/rhdf5"><code>rhdf5</code></a> is a solid option, but it requires users to navigate the <code>BiocManager</code> ecosystem. This complicates the standard <code>install.packages()</code> workflow for general-purpose CRAN packages and can lead to intermittent issues on CRAN check farms.</p></li>
-<li><p><strong>The System Lottery:</strong> The <a href="https://github.com/hhoeflin/hdf5r"><code>hdf5r</code></a> package is powerful but typically requires users to manually install HDF5 system libraries (<code>libhdf5-dev</code>). This is notoriously difficult for Windows users and creates an unpredictable environment where a package might only work if the user happens to have the right library version pre-installed.</p></li>
+<li><p><strong>Store Heterogeneous Data Together:</strong> Keep your raw arrays, tidy data frames, and unstructured metadata (like character strings or enums) inside a single <code>.h5</code> file.</p></li>
+<li><p><strong>Organize with Groups:</strong> Just as you nest lists in R, HDF5 uses a filesystem-like hierarchy of “groups” to organize your data.</p></li>
+<li><p><strong>Share Across Languages:</strong> Because HDF5 is a universal standard, that “list” you saved in R can be opened directly in Python as a dictionary or in Julia as a named tuple, with all your metadata and dimensions preserved.</p></li>
 </ul>
-<p>We built <code>h5lite</code> and <code>hdf5lib</code> to provide a CRAN-native ecosystem that eliminates these barriers while guaranteeing access to the latest HDF5 2.0 features.</p>
-<p><img src="https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/h5lite.png" align="right" width="179" height="200" alt="h5lite logo"></p>
+</section>
+<section id="the-motivation-unlocking-hdf5-for-cran-packages" class="level2">
+<h2 class="anchored" data-anchor-id="the-motivation-unlocking-hdf5-for-cran-packages">The Motivation: Unlocking HDF5 for CRAN Packages</h2>
+<p>The primary goal of <code>h5lite</code> and <code>hdf5lib</code> is to end the “Installation Lottery” for R developers. Existing HDF5 interfaces in R present significant hurdles for anyone trying to build a stable, redistributable package:</p>
+<ul>
+<li><p><strong>The Dependency Barrier:</strong> Relying on the <code>rhdf5</code> ecosystem requires your users to navigate <code>BiocManager</code>, which complicates the standard <code>install.packages()</code> workflow and can cause issues on CRAN check farms.</p></li>
+<li><p><strong>The System Library Gamble:</strong> The <code>hdf5r</code> package typically requires users to manually install <code>libhdf5-dev</code> on their OS. This is notoriously difficult for Windows users and creates an unpredictable environment where your package might fail if the user has the “wrong” library version.</p></li>
+</ul>
+<p>We built <code>hdf5lib</code> to solve this by <strong>bundling the complete HDF5 2.0.0 source code</strong> directly. It compiles natively during installation on macOS, Windows, and Linux with zero external dependencies. For the first time, R package developers can simply add <code>LinkingTo: hdf5lib</code> to their <code>DESCRIPTION</code> file and guarantee that their users have a high-performance, thread-safe HDF5 API ready to go.</p>
+<p><img src="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/h5lite.png" align="right" width="179" height="200" alt="h5lite logo"></p>
 </section>
 <section id="the-interface-h5lite" class="level2">
 <h2 class="anchored" data-anchor-id="the-interface-h5lite">The Interface: <a href="https://cmmr.github.io/h5lite/"><code>h5lite</code></a></h2>
@@ -119,7 +130,7 @@
 <li><p><strong>Metadata Preservation:</strong> R <code>names</code>, <code>row.names</code>, and <code>dimnames</code> are preserved as HDF5 dimension scales, maintaining your metadata across platforms.</p></li>
 <li><p><strong>Compression:</strong> Built-in zlib compression is supported. When enabled, <code>h5lite</code> <a href="https://cmmr.github.io/h5lite/articles/data-types.html#compression">applies a “shuffle” filter</a> to rearrange bytes for significantly better compression of numerical data.</p></li>
 </ul>
-<p><img src="https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo"></p>
+<p><img src="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo"></p>
 </section>
 </section>
 <section id="the-engine-hdf5lib" class="level2">
@@ -393,9 +404,9 @@ font-style: inherit;">#&gt;         └── $Species &lt;enum&gt;</span></span
   <category>HDF5</category>
   <category>Big Data</category>
   <category>Database</category>
-  <guid>https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/</guid>
-  <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
-  <media:content url="https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/thumbnail.png" medium="image" type="image/png" height="70" width="144"/>
+  <guid>https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/</guid>
+  <pubDate>Fri, 27 Feb 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/thumbnail.png" medium="image" type="image/png" height="70" width="144"/>
 </item>
 </channel>
 </rss>
