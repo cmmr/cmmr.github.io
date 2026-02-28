@@ -65,3 +65,4 @@ format:
       light: flatly
       dark: darkly
     css: styles.css
+    include-after-body: analytics.html
