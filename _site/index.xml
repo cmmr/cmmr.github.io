@@ -10,11 +10,11 @@
 <atom:link href="https://cmmr.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Wed, 25 Feb 2026 08:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 27 Feb 2026 08:00:00 GMT</lastBuildDate>
 <item>
   <title>Announcing h5lite and hdf5lib: High-Performance HDF5 Storage for the CRAN Ecosystem</title>
   <dc:creator>Daniel P. Smith</dc:creator>
-  <link>https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/</link>
+  <link>https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/</link>
   <description><![CDATA[ 
 
 
@@ -22,30 +22,43 @@
 
 
 
-<div style="text-align:center;">
-<p><img src="https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/banner.png" style="width:100%; max-width:1024px; height:auto;" alt="Connecting R and HDF5"></p>
+<div style="text-align:center">
+<p><img src="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/banner.png" style="width:100%; max-width:1024px; height:auto;" alt="Connecting R and HDF5"></p>
 </div>
-<p>For years, the R ecosystem has been missing a critical piece of infrastructure: a high-performance, hierarchical data storage API that is actually suitable for use within other CRAN packages. While HDF5 is the global standard for sharing massive, complex datasets across languages like Python, C++, and Julia, R developers have historically been forced to choose between heavy Bioconductor dependencies or unreliable system library configurations.</p>
-<p>Today, we are excited to announce the release of <strong><a href="https://cmmr.github.io/h5lite/">h5lite</a></strong> and <strong><a href="https://cmmr.github.io/hdf5lib/">hdf5lib</a></strong> on CRAN. These packages provide a modern, zero-dependency interface to the HDF5 2.0 storage format, finally making high-performance data storage accessible for both interactive data science and robust R package development.</p>
+<p>The HDF5 hierarchical storage format has seen widespread adoption across high-stakes fields like <strong>aerospace</strong>, <strong>genomics</strong>, and <strong>high-frequency trading</strong> for managing massive, complex datasets. It is the data backbone for missions at <strong>NASA</strong>, climate tracking in meteorology, and next-generation sequencing in bioinformatics—all domains where R is a primary tool for analysis. However, despite R’s prominence in these sectors, CRAN packages have largely been unable to support the HDF5 format due to persistent dependency issues.</p>
+<p>We are excited to announce <a href="https://cran.r-project.org/package=h5lite"><strong>h5lite</strong></a> and <a href="https://cran.r-project.org/package=hdf5lib"><strong>hdf5lib</strong></a>, now available on CRAN. These packages provide a zero-dependency interface to HDF5 2.0, finally bringing world-class hierarchical storage to the R ecosystem in a way that is suitable for both interactive analysis and redistributable R package development.</p>
 <section id="what-is-hdf5-the-supercharged-r-list-analogy" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-hdf5-the-supercharged-r-list-analogy">What is HDF5? The “Supercharged R List” Analogy</h2>
 <p>If you aren’t familiar with HDF5, the easiest way to think about it is as a <strong>persistent, cross-platform R <code>list</code></strong>.</p>
-<p>In R, a <code>list</code> is powerful because it is heterogeneous: you can store a matrix of numbers, a data frame of metadata, and a nested list of configuration settings all in one object. HDF5 brings this same flexibility to your hard drive. It allows you to:</p>
+<p>In R, a <code>list</code> is powerful because it can hold a matrix of numbers, a data frame, and a nested list all in one object. HDF5 brings this same flexibility to your hard drive, allowing you to:</p>
 <ul>
-<li><p><strong>Store Heterogeneous Data Together:</strong> Keep your raw arrays, tidy data frames, and unstructured metadata (like character strings or enums) inside a single <code>.h5</code> file.</p></li>
+<li><p><strong>Store Heterogeneous Data Together:</strong> Keep arrays, tidy data frames, and raw bytes inside a single <code>.h5</code> file.</p></li>
+<li><p><strong>Preserve Metadata with Attributes:</strong> HDF5 attributes are the direct analog to R attributes. You can attach custom metadata - like units, timestamps, or descriptions - directly to any dataset or group.</p></li>
 <li><p><strong>Organize with Groups:</strong> Just as you nest lists in R, HDF5 uses a filesystem-like hierarchy of “groups” to organize your data.</p></li>
-<li><p><strong>Share Across Languages:</strong> Because HDF5 is a universal standard, that “list” you saved in R can be opened directly in Python as a dictionary or in Julia as a named tuple, with all your metadata and dimensions preserved.</p></li>
+<li><p><strong>Share Across Languages:</strong> Because HDF5 is a universal standard, that “list” you saved in R can be opened in Python as a dictionary or in Julia as a named tuple, with all your attributes and dimensions intact.</p></li>
 </ul>
 </section>
-<section id="the-motivation-unlocking-hdf5-for-cran-packages" class="level2">
-<h2 class="anchored" data-anchor-id="the-motivation-unlocking-hdf5-for-cran-packages">The Motivation: Unlocking HDF5 for CRAN Packages</h2>
-<p>The primary goal of <code>h5lite</code> and <code>hdf5lib</code> is to end the “Installation Lottery” for R developers. Existing HDF5 interfaces in R present significant hurdles for anyone trying to build a stable, redistributable package:</p>
+<section id="the-motivation-navigating-the-dependency-minefield" class="level2">
+<h2 class="anchored" data-anchor-id="the-motivation-navigating-the-dependency-minefield">The Motivation: Navigating the Dependency Minefield</h2>
+<p>The primary goal of <code>h5lite</code> and <code>hdf5lib</code> is to eliminate the “Dependency Minefield” that R users often face. Historically, existing HDF5 interfaces in R presented significant hurdles for anyone trying to build a stable, redistributable package:</p>
 <ul>
-<li><p><strong>The Dependency Barrier:</strong> Relying on the <code>rhdf5</code> ecosystem requires your users to navigate <code>BiocManager</code>, which complicates the standard <code>install.packages()</code> workflow and can cause issues on CRAN check farms.</p></li>
-<li><p><strong>The System Library Gamble:</strong> The <code>hdf5r</code> package typically requires users to manually install <code>libhdf5-dev</code> on their OS. This is notoriously difficult for Windows users and creates an unpredictable environment where your package might fail if the user has the “wrong” library version.</p></li>
+<li><p><strong>The Bioconductor Barrier:</strong> Relying on the <code>rhdf5</code> ecosystem requires your users to navigate <code>BiocManager</code>, which complicates the standard <code>install.packages()</code> workflow and can cause issues on CRAN check farms.</p></li>
+<li><p><strong>System Library Fragility:</strong> The <code>hdf5r</code> package typically requires users to manually install <code>libhdf5-dev</code> on their OS. This is notoriously difficult for Windows users and creates an unpredictable environment where your package might fail if the user has a mismatched library version.</p></li>
 </ul>
-<p>We built <code>hdf5lib</code> to solve this by <strong>bundling the complete HDF5 2.0.0 source code</strong> directly. It compiles natively during installation on macOS, Windows, and Linux with zero external dependencies. For the first time, R package developers can simply add <code>LinkingTo: hdf5lib</code> to their <code>DESCRIPTION</code> file and guarantee that their users have a high-performance, thread-safe HDF5 API ready to go.</p>
-<p><img src="https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/h5lite.png" align="right" width="179" height="200" alt="h5lite logo"></p>
+<p>By providing a <strong>guaranteed, zero-dependency environment</strong>, these packages allow R developers to simply add <code>LinkingTo: hdf5lib</code> to their <code>DESCRIPTION</code> file. For the first time, you can ship a package that uses HDF5 and be certain it will “just work” for every user, on every platform, immediately upon installation.</p>
+</section>
+<section id="choosing-your-path-which-package-to-use" class="level2">
+<h2 class="anchored" data-anchor-id="choosing-your-path-which-package-to-use">Choosing Your Path: Which Package to Use?</h2>
+<p>Depending on whether you are analyzing data or building tools for others, your entry point into this ecosystem will differ:</p>
+<ul>
+<li><p><strong>Interactive Users:</strong> You only need <strong><code>h5lite</code></strong>. It provides a simplified R interface (<code>h5_read</code>, <code>h5_write</code>) to quickly store and retrieve data, removing the need to manage complex HDF5 objects or system dependencies.</p></li>
+<li><p><strong>Package Developers:</strong> You have two powerful ways to leverage this infrastructure:</p>
+<ul>
+<li><strong><code>Imports: h5lite</code></strong>: Use this to call the streamlined R interface within your own package functions.</li>
+<li><strong><code>LinkingTo: hdf5lib</code></strong>: Use this if your package contains C or C++ code and requires direct, high-performance access to the native HDF5 C API.</li>
+</ul></li>
+</ul>
+<p><img src="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/h5lite.png" align="right" width="179" height="200" alt="h5lite logo"></p>
 </section>
 <section id="the-interface-h5lite" class="level2">
 <h2 class="anchored" data-anchor-id="the-interface-h5lite">The Interface: <a href="https://cmmr.github.io/h5lite/"><code>h5lite</code></a></h2>
@@ -130,22 +143,22 @@
 <li><p><strong>Metadata Preservation:</strong> R <code>names</code>, <code>row.names</code>, and <code>dimnames</code> are preserved as HDF5 dimension scales, maintaining your metadata across platforms.</p></li>
 <li><p><strong>Compression:</strong> Built-in zlib compression is supported. When enabled, <code>h5lite</code> <a href="https://cmmr.github.io/h5lite/articles/data-types.html#compression">applies a “shuffle” filter</a> to rearrange bytes for significantly better compression of numerical data.</p></li>
 </ul>
-<p><img src="https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo"></p>
+<p><img src="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo"></p>
 </section>
 </section>
 <section id="the-engine-hdf5lib" class="level2">
 <h2 class="anchored" data-anchor-id="the-engine-hdf5lib">The Engine: <a href="https://cmmr.github.io/hdf5lib/"><code>hdf5lib</code></a></h2>
-<p>Under the hood, <code>h5lite</code> is powered by <strong><code>hdf5lib</code></strong>. While most users won’t interact with it directly, it serves as a rock-solid foundation for R package developers.</p>
+<p>Under the hood, <code>h5lite</code> is powered by <strong><code>hdf5lib</code></strong>. While most users won’t interact with it directly, it serves as the rock-solid foundation for the entire ecosystem.</p>
 <ul>
-<li><p><strong>Bundled Source:</strong> <code>hdf5lib</code> bundles the complete HDF5 2.0.0 source code. No external libraries are needed; it compiles natively during installation on MacOS, Windows, and Linux.</p></li>
-<li><p><strong>Thread-Safety:</strong> Unlike many system builds, <code>hdf5lib</code> is compiled with thread-safety enabled, allowing for <a href="https://cmmr.github.io/hdf5lib/articles/parallelism.html">safe parallel I/O</a> via <code>RcppParallel</code> or <code>OpenMP</code>.</p></li>
-<li><p><strong>Versioning Guarantee:</strong> Developers can now specify <code>LinkingTo: hdf5lib (&gt;= 2.0)</code> in their <code>DESCRIPTION</code> file. This guarantees that HDF5 2.0 features are available on the user’s system, finally ending the “system lottery.” <a href="https://cmmr.github.io/hdf5lib/articles/api-versioning.html">API versioning</a> also safeguards against breaking changes in future HDF5 releases.</p></li>
+<li><p><strong>Bundled Source:</strong> To eliminate external dependencies, <code>hdf5lib</code> bundles the complete HDF5 2.0.0 source code. It compiles natively during installation on macOS, Windows, and Linux - no external system libraries required.</p></li>
+<li><p><strong>Thread-Safety:</strong> Unlike many system builds, <code>hdf5lib</code> is compiled with thread-safety enabled by default. This allows for <a href="https://cmmr.github.io/h5lite/articles/parallel-io.html">safe parallel I/O</a> regardless of your chosen threading system, whether you are using <code>RcppParallel</code>, <code>OpenMP</code>, <code>pthreads</code>, or similar libraries.</p></li>
+<li><p><strong>Versioning &amp; API Stability:</strong> Developers can specify <code>LinkingTo: hdf5lib (&gt;= 2.0)</code> to ensure HDF5 2.0 features are available. Built-in <a href="https://cmmr.github.io/hdf5lib/articles/api-versioning.html">API versioning</a> also safeguards your code against breaking changes in future HDF5 releases.</p></li>
 </ul>
 </section>
 <section id="stability-and-minimal-footprint" class="level2">
 <h2 class="anchored" data-anchor-id="stability-and-minimal-footprint">Stability and Minimal Footprint</h2>
-<p>Reliability is paramount for a storage interface. Both packages minimize their dependency footprint by <strong>not importing any other R packages</strong>.</p>
-<p>To ensure a stable experience, <code>h5lite</code> maintains a <strong>100% code coverage test suite</strong>. Both packages have been rigorously validated across standard CRAN platforms (Linux, Windows, macOS) and compilers (GCC, Clang). For developers, we have prioritized memory safety by passing checks for <strong>Valgrind, ASAN, and UBSAN</strong>, ensuring that packages linking to these libraries remain free of upstream memory issues.</p>
+<p>Reliability is paramount for a storage interface. Both packages minimize their dependency footprint by <strong>not importing any other R packages</strong>. To ensure a stable experience, <code>h5lite</code> maintains a <strong>100% code coverage test suite</strong>.</p>
+<p>Both packages have been rigorously validated across standard CRAN platforms (Linux, Windows, macOS) and compilers (GCC, Clang). For developers, we have prioritized memory safety by passing checks for <strong>Valgrind, ASAN, and UBSAN</strong>, ensuring that packages linking to these libraries remain free of upstream memory issues.</p>
 </section>
 <section id="comparison-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="comparison-at-a-glance">Comparison at a Glance</h2>
@@ -404,9 +417,9 @@ font-style: inherit;">#&gt;         └── $Species &lt;enum&gt;</span></span
   <category>HDF5</category>
   <category>Big Data</category>
   <category>Database</category>
-  <guid>https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/</guid>
-  <pubDate>Wed, 25 Feb 2026 08:00:00 GMT</pubDate>
-  <media:content url="https://cmmr.github.io/posts/2026-02-25_hdf5_r_pkgs/thumbnail.png" medium="image" type="image/png" height="70" width="144"/>
+  <guid>https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/</guid>
+  <pubDate>Fri, 27 Feb 2026 08:00:00 GMT</pubDate>
+  <media:content url="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/thumbnail.png" medium="image" type="image/png" height="70" width="144"/>
 </item>
 </channel>
 </rss>
