@@ -5,11 +5,12 @@ listing:
   sort: "date desc"
   type: grid
   grid-columns: 2
-  categories: true # Changed from 'cloud' to 'true' (list view) to be less distracting
+  categories: true
   sort-ui: true
   filter-ui: true
   fields: [image, date, title, reading-time, description]
-  feed: true
+  feed:
+    categories: [R, Python]
 ---
 
 **The Alkek Center for Metagenomics and Microbiome Research (CMMR)** is a leading hub for microbiome research at **Baylor College of Medicine**.
