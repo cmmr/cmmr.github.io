@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Daniel P. Smith">
-<meta name="dcterms.date" content="2026-02-27">
+<meta name="dcterms.date" content="2026-02-28">
 <meta name="description" content="Finally, a zero-dependency way for R users and package developers to use the HDF5 2.0 storage format without the traditional installation hurdles.">
 
 <title>Announcing h5lite and hdf5lib: High-Performance HDF5 Storage for the CRAN Ecosystem – CMMR Developer News</title>
@@ -80,9 +80,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c33c02269a34bb60a4d85a0ca0a98e62.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-1be3863eed59e142be6fa3a8484543f1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-c33c02269a34bb60a4d85a0ca0a98e62.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-e75163e221e1fb623269f578dd49732c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-60933ac057b43236a9ed5356ff1ed29c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-e75163e221e1fb623269f578dd49732c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -356,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">February 27, 2026</p>
+        <p class="date">February 28, 2026</p>
       </div>
     </div>
     
@@ -464,7 +464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div style="text-align:center">
 <p><img src="banner.png" style="width:100%; max-width:1024px; height:auto;" alt="Connecting R and HDF5"></p>
 </div>
-<p>The HDF5 hierarchical storage format has seen widespread adoption across high-stakes fields like <strong>aerospace</strong>, <strong>genomics</strong>, and <strong>high-frequency trading</strong> for managing massive, complex datasets. It is the data backbone for missions at <strong>NASA</strong>, climate tracking in meteorology, and next-generation sequencing in bioinformatics—all domains where R is a primary tool for analysis. However, despite R’s prominence in these sectors, CRAN packages have largely been unable to support the HDF5 format due to persistent dependency issues.</p>
+<p>The HDF5 hierarchical storage format is the primary data standard in <strong>genomics</strong>, <strong>environmental science</strong>, and <strong>quantitative finance</strong> - the very fields where R is the dominant language for analysis. It serves as the data backbone for NASA’s Earth observing missions, next-generation sequencing, and high-frequency trading platforms. However, CRAN packages have largely been unable to support this format due to a persistent dependency minefield. R developers have traditionally been forced to choose between heavy Bioconductor requirements or brittle system library configurations that frequently fail during installation.</p>
 <p>We are excited to announce <a href="https://cran.r-project.org/package=h5lite"><strong>h5lite</strong></a> and <a href="https://cran.r-project.org/package=hdf5lib"><strong>hdf5lib</strong></a>, now available on CRAN. These packages provide a zero-dependency interface to HDF5 2.0, finally bringing world-class hierarchical storage to the R ecosystem in a way that is suitable for both interactive analysis and redistributable R package development.</p>
 <section id="what-is-hdf5-the-supercharged-r-list-analogy" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-hdf5-the-supercharged-r-list-analogy">What is HDF5? The “Supercharged R List” Analogy</h2>

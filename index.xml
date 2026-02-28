@@ -10,11 +10,11 @@
 <atom:link href="https://cmmr.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Fri, 27 Feb 2026 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 28 Feb 2026 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Announcing h5lite and hdf5lib: High-Performance HDF5 Storage for the CRAN Ecosystem</title>
   <dc:creator>Daniel P. Smith</dc:creator>
-  <link>https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/</link>
+  <link>https://cmmr.github.io/posts/2026-02-28_hdf5_r_pkgs/</link>
   <description><![CDATA[ 
 
 
@@ -23,9 +23,9 @@
 
 
 <div style="text-align:center">
-<p><img src="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/banner.png" style="width:100%; max-width:1024px; height:auto;" alt="Connecting R and HDF5"></p>
+<p><img src="https://cmmr.github.io/posts/2026-02-28_hdf5_r_pkgs/banner.png" style="width:100%; max-width:1024px; height:auto;" alt="Connecting R and HDF5"></p>
 </div>
-<p>The HDF5 hierarchical storage format has seen widespread adoption across high-stakes fields like <strong>aerospace</strong>, <strong>genomics</strong>, and <strong>high-frequency trading</strong> for managing massive, complex datasets. It is the data backbone for missions at <strong>NASA</strong>, climate tracking in meteorology, and next-generation sequencing in bioinformatics—all domains where R is a primary tool for analysis. However, despite R’s prominence in these sectors, CRAN packages have largely been unable to support the HDF5 format due to persistent dependency issues.</p>
+<p>The HDF5 hierarchical storage format is the primary data standard in <strong>genomics</strong>, <strong>environmental science</strong>, and <strong>quantitative finance</strong> - the very fields where R is the dominant language for analysis. It serves as the data backbone for NASA’s Earth observing missions, next-generation sequencing, and high-frequency trading platforms. However, CRAN packages have largely been unable to support this format due to a persistent dependency minefield. R developers have traditionally been forced to choose between heavy Bioconductor requirements or brittle system library configurations that frequently fail during installation.</p>
 <p>We are excited to announce <a href="https://cran.r-project.org/package=h5lite"><strong>h5lite</strong></a> and <a href="https://cran.r-project.org/package=hdf5lib"><strong>hdf5lib</strong></a>, now available on CRAN. These packages provide a zero-dependency interface to HDF5 2.0, finally bringing world-class hierarchical storage to the R ecosystem in a way that is suitable for both interactive analysis and redistributable R package development.</p>
 <section id="what-is-hdf5-the-supercharged-r-list-analogy" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-hdf5-the-supercharged-r-list-analogy">What is HDF5? The “Supercharged R List” Analogy</h2>
@@ -58,7 +58,7 @@
 <li><strong><code>LinkingTo: hdf5lib</code></strong>: Use this if your package contains C or C++ code and requires direct, high-performance access to the native HDF5 C API.</li>
 </ul></li>
 </ul>
-<p><img src="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/h5lite.png" align="right" width="179" height="200" alt="h5lite logo"></p>
+<p><img src="https://cmmr.github.io/posts/2026-02-28_hdf5_r_pkgs/h5lite.png" align="right" width="179" height="200" alt="h5lite logo"></p>
 </section>
 <section id="the-interface-h5lite" class="level2">
 <h2 class="anchored" data-anchor-id="the-interface-h5lite">The Interface: <a href="https://cmmr.github.io/h5lite/"><code>h5lite</code></a></h2>
@@ -143,7 +143,7 @@
 <li><p><strong>Metadata Preservation:</strong> R <code>names</code>, <code>row.names</code>, and <code>dimnames</code> are preserved as HDF5 dimension scales, maintaining your metadata across platforms.</p></li>
 <li><p><strong>Compression:</strong> Built-in zlib compression is supported. When enabled, <code>h5lite</code> <a href="https://cmmr.github.io/h5lite/articles/data-types.html#compression">applies a “shuffle” filter</a> to rearrange bytes for significantly better compression of numerical data.</p></li>
 </ul>
-<p><img src="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo"></p>
+<p><img src="https://cmmr.github.io/posts/2026-02-28_hdf5_r_pkgs/hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo"></p>
 </section>
 </section>
 <section id="the-engine-hdf5lib" class="level2">
@@ -417,9 +417,9 @@ font-style: inherit;">#&gt;         └── $Species &lt;enum&gt;</span></span
   <category>HDF5</category>
   <category>Big Data</category>
   <category>Database</category>
-  <guid>https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/</guid>
-  <pubDate>Fri, 27 Feb 2026 00:00:00 GMT</pubDate>
-  <media:content url="https://cmmr.github.io/posts/2026-02-27_hdf5_r_pkgs/thumbnail.png" medium="image" type="image/png" height="70" width="144"/>
+  <guid>https://cmmr.github.io/posts/2026-02-28_hdf5_r_pkgs/</guid>
+  <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://cmmr.github.io/posts/2026-02-28_hdf5_r_pkgs/thumbnail.png" medium="image" type="image/png" height="70" width="144"/>
 </item>
 </channel>
 </rss>
