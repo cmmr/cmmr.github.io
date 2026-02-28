@@ -103,9 +103,9 @@ Any post you tag with the category `R` is automatically bundled into a specializ
 Use this table to track where our content is being syndicated. If you set up a new connection (e.g., to a Python aggregator or a specific bioinformatics planet), please add it to this list.
 
 | Aggregator | Content Filter | Feed URL |
-| :--- | :--- | :--- |
-| [**R-bloggers**](https://www.r-bloggers.com/) | R-related only | `https://cmmr.github.io/categories/r/index.xml` |
-| [**RWeekly**](https://rweekly.org) | R-related only | `https://cmmr.github.io/categories/r/index.xml` |
+| :--- | :--- | :------- |
+| [**R-bloggers**](https://www.r-bloggers.com/) | R-related only | `https://cmmr.github.io/index-r.xml` |
+| [**RWeekly**](https://rweekly.org)            | R-related only | `https://cmmr.github.io/index-r.xml` |
 
 ### ⚠️ Warning: Category Discipline
 Please be mindful of your `categories` list in the YAML header. Mis-categorizing a post (e.g., sending a non-R post to R-bloggers) is considered poor "netiquette" and can result in our lab's feed being throttled or removed from these aggregators.
