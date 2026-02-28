@@ -12,7 +12,7 @@ image: "thumbnail.png"
 </div>
 
 
-The HDF5 hierarchical storage format is the primary data standard in **genomics**, **environmental science**, and **quantitative finance** - the very fields where R is the dominant language for analysis. It serves as the data backbone for NASA’s Earth observing missions, next-generation sequencing, and high-frequency trading platforms. However, CRAN packages have largely been unable to support this format due to a persistent dependency minefield. R developers have traditionally been forced to choose between heavy Bioconductor requirements or brittle system library configurations that frequently fail during installation.
+The HDF5 hierarchical storage format is the industry standard for managing massive, complex datasets in **genomics**, **environmental science**, and **quantitative finance**. It serves as the data backbone for everything from NASA’s Earth-observing missions to next-generation sequencing. Since these are the exact domains where R is the primary language for analysis, the lack of reliable HDF5 support on CRAN has been a significant bottleneck. For years, developers have been trapped in a "dependency minefield," forced to choose between heavy Bioconductor requirements or brittle system configurations that frequently fail during installation.
 
 We are excited to announce [**h5lite**](https://cran.r-project.org/package=h5lite) and [**hdf5lib**](https://cran.r-project.org/package=hdf5lib), now available on CRAN. These packages provide a zero-dependency interface to HDF5 2.0, finally bringing world-class hierarchical storage to the R ecosystem in a way that is suitable for both interactive analysis and redistributable R package development.
 
@@ -62,7 +62,7 @@ Depending on whether you are analyzing data or building tools for others, your e
 
 ## The Interface: [`h5lite`](https://cmmr.github.io/h5lite/)
 
-`h5lite` is an opinionated, streamlined interface that handles the complexities of [type mapping and interoperability](https://cmmr.github.io/h5lite/articles/data-types.html) so you can focus on your data. It manages the following default behaviors:
+`h5lite` is an opinionated, streamlined interface that handles the complexities of [type mapping and interoperability](https://cmmr.github.io/h5lite/articles/data-types.html) so you can focus on your data. Below is a summary of the type translation logic handled by the h5lite interface:
 
 
 | R Data Type    | HDF5 Equivalent  | Description                                    |
