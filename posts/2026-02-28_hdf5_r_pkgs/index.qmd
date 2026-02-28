@@ -3,7 +3,7 @@ title: "Announcing h5lite and hdf5lib: High-Performance HDF5 Storage for the CRA
 description: "Finally, a zero-dependency way for R users and package developers to use the HDF5 2.0 storage format without the traditional installation hurdles."
 categories: [R, CRAN, Package, HDF5, Big Data, Database]
 author: "Daniel P. Smith"
-date: "2026-02-27"
+date: "2026-02-28"
 image: "thumbnail.png"
 ---
 
@@ -12,7 +12,7 @@ image: "thumbnail.png"
 </div>
 
 
-The HDF5 hierarchical storage format has seen widespread adoption across high-stakes fields like **aerospace**, **genomics**, and **high-frequency trading** for managing massive, complex datasets. It is the data backbone for missions at **NASA**, climate tracking in meteorology, and next-generation sequencing in bioinformatics—all domains where R is a primary tool for analysis. However, despite R's prominence in these sectors, CRAN packages have largely been unable to support the HDF5 format due to persistent dependency issues.
+The HDF5 hierarchical storage format is the primary data standard in **genomics**, **environmental science**, and **quantitative finance** - the very fields where R is the dominant language for analysis. It serves as the data backbone for NASA’s Earth observing missions, next-generation sequencing, and high-frequency trading platforms. However, CRAN packages have largely been unable to support this format due to a persistent dependency minefield. R developers have traditionally been forced to choose between heavy Bioconductor requirements or brittle system library configurations that frequently fail during installation.
 
 We are excited to announce [**h5lite**](https://cran.r-project.org/package=h5lite) and [**hdf5lib**](https://cran.r-project.org/package=hdf5lib), now available on CRAN. These packages provide a zero-dependency interface to HDF5 2.0, finally bringing world-class hierarchical storage to the R ecosystem in a way that is suitable for both interactive analysis and redistributable R package development.
 
