@@ -4,7 +4,7 @@ description: "Finally, a zero-dependency way for R users and package developers 
 categories: [R, CRAN, Package, HDF5, Big Data, Database]
 author: "Daniel P. Smith"
 date: "2026-02-28"
-image: "thumbnail.png"
+image: "banner.png"
 ---
 
 <div style="text-align:center">
