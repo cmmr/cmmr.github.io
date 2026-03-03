@@ -129,22 +129,10 @@ install.packages("h5lite")
 library(h5lite)
 file <- tempfile(fileext = ".h5")
 
-# 1. Write with high-performance SZIP compression
-# SZIP is faster and often achieves better ratios for numeric data
-signal_mtx <- matrix(sin(seq(0, 10, length.out = 5000)), ncol = 5, byrow = TRUE)
-h5_write(signal_mtx, file, "signal_mtx", compress = "szip-nn")
-
-# 2. Perform a partial read (load only rows 10 through 13)
-# This is much faster and more memory-efficient than reading the whole file
-h5_read(file, "signal_mtx", start = 10, count = 3)
-#>            [,1]      [,2]       [,3]       [,4]       [,5]
-#> [1,] 0.08989648 0.0918886 0.09388035 0.09587173 0.09786272
-#> [2,] 0.09985332 0.1018435 0.10383332 0.10582269 0.10781165
-#> [3,] 0.10980017 0.1117883 0.11377589 0.11576307 0.11774979
-
-# 3. Write various R objects with smart defaults
+# Write various R objects with smart defaults
 h5_write(1:10, file, "ints")                   # Integer Vector
 h5_write(I("example"), file, "/", attr = "id") # Scalar Attribute
+h5_write(matrix(1:20, nrow = 5), file, "mtx")  # Numeric Matrix
 h5_write(factor(letters), file, "letters")     # Factor -> ENUM
 h5_write(list(a = 1, b = 2), file, "config")   # List -> GROUP
 h5_write(iris, file, "flowers/iris")           # Data Frame -> COMPOUND
@@ -157,7 +145,7 @@ h5_write(iris, file, "flowers/coerced",
 h5_str(file)
 #> /
 #> ├── @id <utf8[7] scalar>
-#> ├── signal_mtx <float64 × 1000 × 5>
+#> ├── mtx <uint8 × 5 × 4>
 #> ├── letters <enum × 26>
 #> ├── config/
 #> │   ├── a <uint8 × 1>
