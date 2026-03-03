@@ -468,10 +468,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We are excited to announce <a href="https://cran.r-project.org/package=h5lite"><strong>h5lite</strong></a> and <a href="https://cran.r-project.org/package=hdf5lib"><strong>hdf5lib</strong></a>, now available on CRAN. These packages provide a zero-dependency interface to HDF5 2.0, finally bringing world-class hierarchical storage to the R ecosystem in a way that is suitable for both interactive analysis and redistributable R package development.</p>
 <section id="what-is-hdf5-the-supercharged-r-list-analogy" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-hdf5-the-supercharged-r-list-analogy">What is HDF5? The “Supercharged R List” Analogy</h2>
-<p>If you aren’t familiar with HDF5, the easiest way to think about it is as a <strong>persistent, cross-platform R <code>list</code></strong>.</p>
-<p>In R, a <code>list</code> is powerful because it can hold a matrix of numbers, a data frame, and a nested list all in one object. HDF5 brings this same flexibility to your hard drive, allowing you to:</p>
+<p>If you aren’t familiar with HDF5, the easiest way to think about it is as a <strong>persistent, cross-platform R <code>list</code></strong>. In R, a <code>list</code> is powerful because it can hold a matrix of numbers, a data frame, and a nested list all in one object. HDF5 brings this same flexibility to your hard drive, allowing you to:</p>
 <ul>
 <li><p><strong>Store Heterogeneous Data Together:</strong> Keep arrays, tidy data frames, and raw bytes inside a single <code>.h5</code> file.</p></li>
+<li><p><strong>Perform Efficient Partial I/O:</strong> HDF5 allows you to “reach in” and read only the specific slice of a dataset you need. This makes it possible to work with multi-gigabyte objects that would otherwise crash your R session.</p></li>
 <li><p><strong>Preserve Metadata with Attributes:</strong> HDF5 attributes are the direct analog to R attributes. You can attach custom metadata - like units, timestamps, or descriptions - directly to any dataset or group.</p></li>
 <li><p><strong>Organize with Groups:</strong> Just as you nest lists in R, HDF5 uses a filesystem-like hierarchy of “groups” to organize your data.</p></li>
 <li><p><strong>Share Across Languages:</strong> Because HDF5 is a universal standard, that “list” you saved in R can be opened in Python as a dictionary or in Julia as a named tuple, with all your attributes and dimensions intact.</p></li>
@@ -580,7 +580,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Precision Control:</strong> Use the <code>as</code> argument to explicitly request types like <code>bfloat16</code>, <code>float32</code>, or specific fixed-length strings to match external schemas.</p></li>
 <li><p><strong>Transparent Interoperability:</strong> R uses column-major order while HDF5 uses row-major. <code>h5lite</code> handles these permutations automatically, ensuring your data opens correctly in Python or Julia.</p></li>
 <li><p><strong>Metadata Preservation:</strong> R <code>names</code>, <code>row.names</code>, and <code>dimnames</code> are preserved as HDF5 dimension scales, maintaining your metadata across platforms.</p></li>
-<li><p><strong>Compression:</strong> Built-in zlib compression is supported. When enabled, <code>h5lite</code> <a href="https://cmmr.github.io/h5lite/articles/data-types.html#compression">applies a “shuffle” filter</a> to rearrange bytes for significantly better compression of numerical data.</p></li>
+<li><p><strong>Advanced Compression:</strong> Supports both <a href="https://cmmr.github.io/h5lite/articles/data-compression.html">GZIP and SZIP compression</a>. SZIP is an extremely fast, specialized algorithm designed specifically for high-performance scientific data.</p></li>
+<li><p><strong>Efficient Partial Reading:</strong> One of HDF5’s greatest strengths is the ability to read small slices of massive datasets without loading the entire file into memory. <code>h5lite</code> now provides <a href="https://cmmr.github.io/h5lite/articles/partial-reading.html">“smart” partial I/O</a> via <code>start</code> and <code>count</code> parameters, which automatically target the most logical structural units (like rows in a matrix or elements in a vector).</p></li>
 </ul>
 <p><img src="hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo"></p>
 </section>
@@ -589,24 +590,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="the-engine-hdf5lib">The Engine: <a href="https://cmmr.github.io/hdf5lib/"><code>hdf5lib</code></a></h2>
 <p>Under the hood, <code>h5lite</code> is powered by <strong><code>hdf5lib</code></strong>. While most users won’t interact with it directly, it serves as the rock-solid foundation for the entire ecosystem.</p>
 <ul>
-<li><p><strong>Bundled Source:</strong> To eliminate external dependencies, <code>hdf5lib</code> bundles the complete HDF5 2.0.0 source code. It compiles natively during installation on macOS, Windows, and Linux - no external system libraries required.</p></li>
-<li><p><strong>Thread-Safety:</strong> Unlike many system builds, <code>hdf5lib</code> is compiled with thread-safety enabled by default. This allows for <a href="https://cmmr.github.io/h5lite/articles/parallel-io.html">safe parallel I/O</a> regardless of your chosen threading system, whether you are using <code>RcppParallel</code>, <code>OpenMP</code>, <code>pthreads</code>, or similar libraries.</p></li>
+<li><strong>Bundled Source:</strong> To eliminate external dependencies, <code>hdf5lib</code> bundles the complete HDF5 2.0.0 source code. It compiles natively during installation on macOS, Windows, and Linux - no external system libraries required.</li>
+</ul>
+<p><strong>Bundled Gzip and Szip Support:</strong> To ensure zero external dependencies, <code>hdf5lib</code> bundles both the <strong>zlib</strong> and <strong>libaec</strong> libraries. These libraries are permissively licensed and handle a broad range of compression needs out-of-the-box on all platforms.</p>
+<ul>
+<li><p><strong>Thread-Safety:</strong> Unlike many system builds, <code>hdf5lib</code> is compiled with thread-safety enabled by default. This allows for <a href="https://cmmr.github.io/hdf5lib/articles/parallelism.html">safe parallel I/O</a> regardless of your chosen threading system.</p></li>
 <li><p><strong>Versioning &amp; API Stability:</strong> Developers can specify <code>LinkingTo: hdf5lib (&gt;= 2.0)</code> to ensure HDF5 2.0 features are available. Built-in <a href="https://cmmr.github.io/hdf5lib/articles/api-versioning.html">API versioning</a> also safeguards your code against breaking changes in future HDF5 releases.</p></li>
 </ul>
 </section>
 <section id="stability-and-minimal-footprint" class="level2">
 <h2 class="anchored" data-anchor-id="stability-and-minimal-footprint">Stability and Minimal Footprint</h2>
-<p>Reliability is paramount for a storage interface. Both packages minimize their dependency footprint by <strong>not importing any other R packages</strong>. To ensure a stable experience, <code>h5lite</code> maintains a <strong>100% code coverage test suite</strong>.</p>
-<p>Both packages have been rigorously validated across standard CRAN platforms (Linux, Windows, macOS) and compilers (GCC, Clang). For developers, we have prioritized memory safety by passing checks for <strong>Valgrind, ASAN, and UBSAN</strong>, ensuring that packages linking to these libraries remain free of upstream memory issues.</p>
+<p>Reliability is paramount for a storage interface. Both packages minimize their dependency footprint by <strong>not importing any other R packages</strong>. To ensure a stable experience, <code>h5lite</code> maintains a <strong>100% code coverage test suite</strong>. Both packages have been rigorously validated across standard CRAN platforms (Linux, Windows, macOS) and compilers (GCC, Clang).</p>
 </section>
 <section id="comparison-at-a-glance" class="level2">
 <h2 class="anchored" data-anchor-id="comparison-at-a-glance">Comparison at a Glance</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 27%">
-<col style="width: 30%">
+<col style="width: 26%">
+<col style="width: 29%">
 <col style="width: 24%">
-<col style="width: 17%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -636,12 +639,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Comprehensive</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><strong>Partial I/O</strong></td>
+<td style="text-align: left;"><strong>Yes (Smart/Simple)</strong></td>
+<td style="text-align: left;">Yes (Low-level)</td>
+<td style="text-align: left;">Yes (Low-level)</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><strong>Install Friction</strong></td>
 <td style="text-align: left;"><strong>None</strong></td>
 <td style="text-align: left;">BiocManager</td>
 <td style="text-align: left;">System Libs</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><strong>Thread Safety</strong></td>
 <td style="text-align: left;"><strong>Yes (Default)</strong></td>
 <td style="text-align: left;">No (Default)</td>
@@ -657,41 +666,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(h5lite)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".h5"</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Write various R objects</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, file, <span class="st">"ints"</span>)                   <span class="co"># Integer Vector</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">I</span>(<span class="st">"example"</span>), file, <span class="st">"/"</span>, <span class="at">attr =</span> <span class="st">"id"</span>) <span class="co"># Scalar Attribute</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">9</span>), <span class="dv">3</span>, <span class="dv">3</span>), file, <span class="st">"mtx"</span>)  <span class="co"># Numeric Matrix</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">factor</span>(letters), file, <span class="st">"letters"</span>)     <span class="co"># Factor -&gt; ENUM</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>), file, <span class="st">"config"</span>)   <span class="co"># List -&gt; GROUP</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(iris, file, <span class="st">"flowers/iris"</span>)           <span class="co"># Data Frame -&gt; COMPOUND</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Write with specific type coercions</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(iris, file, <span class="st">"flowers/coerced"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">as =</span> <span class="fu">c</span>(<span class="at">Sepal.Length =</span> <span class="st">"bfloat16"</span>, <span class="at">.numeric =</span> <span class="st">"float32"</span>))</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the file structure</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_str</span>(file)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; /</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── @id &lt;utf8[7] scalar&gt;</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── mtx &lt;float64 × 3 × 3&gt;</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── letters &lt;enum × 26&gt;</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── config/</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── a &lt;uint8 × 1&gt;</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └── b &lt;uint8 × 1&gt;</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── ints &lt;uint8 × 10&gt;</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; └── flowers/</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├── iris &lt;compound[5] × 150&gt;</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     │   ├── $Sepal.Length &lt;float64&gt;</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     │   ├── $Sepal.Width &lt;float64&gt;</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     │   ├── $Petal.Length &lt;float64&gt;</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     │   ├── $Petal.Width &lt;float64&gt;</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     │   └── $Species &lt;enum&gt;</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └── coerced &lt;compound[5] × 150&gt;</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ├── $Sepal.Length &lt;bfloat16&gt;</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ├── $Sepal.Width &lt;float32&gt;</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ├── $Petal.Length &lt;float32&gt;</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ├── $Petal.Width &lt;float32&gt;</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         └── $Species &lt;enum&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Write with high-performance SZIP compression</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># SZIP is faster and often achieves better ratios for numeric data</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>signal_mtx <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">sin</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="at">length.out =</span> <span class="dv">5000</span>)), <span class="at">ncol =</span> <span class="dv">5</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(signal_mtx, file, <span class="st">"signal_mtx"</span>, <span class="at">compress =</span> <span class="st">"szip-nn"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Perform a partial read (load only rows 10 through 13)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># This is much faster and more memory-efficient than reading the whole file</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_read</span>(file, <span class="st">"signal_mtx"</span>, <span class="at">start =</span> <span class="dv">10</span>, <span class="at">count =</span> <span class="dv">3</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            [,1]      [,2]       [,3]       [,4]       [,5]</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,] 0.08989648 0.0918886 0.09388035 0.09587173 0.09786272</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,] 0.09985332 0.1018435 0.10383332 0.10582269 0.10781165</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,] 0.10980017 0.1117883 0.11377589 0.11576307 0.11774979</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Write various R objects with smart defaults</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, file, <span class="st">"ints"</span>)                   <span class="co"># Integer Vector</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">I</span>(<span class="st">"example"</span>), file, <span class="st">"/"</span>, <span class="at">attr =</span> <span class="st">"id"</span>) <span class="co"># Scalar Attribute</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">factor</span>(letters), file, <span class="st">"letters"</span>)     <span class="co"># Factor -&gt; ENUM</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(<span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>), file, <span class="st">"config"</span>)   <span class="co"># List -&gt; GROUP</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(iris, file, <span class="st">"flowers/iris"</span>)           <span class="co"># Data Frame -&gt; COMPOUND</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Write with specific type coercions</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_write</span>(iris, file, <span class="st">"flowers/coerced"</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">as =</span> <span class="fu">c</span>(<span class="at">Sepal.Length =</span> <span class="st">"bfloat16"</span>, <span class="at">.numeric =</span> <span class="st">"float32"</span>))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the file structure</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">h5_str</span>(file)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; /</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── @id &lt;utf8[7] scalar&gt;</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── signal_mtx &lt;float64 × 1000 × 5&gt;</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── letters &lt;enum × 26&gt;</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── config/</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── a &lt;uint8 × 1&gt;</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └── b &lt;uint8 × 1&gt;</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── ints &lt;uint8 × 10&gt;</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; └── flowers/</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├── iris &lt;compound[5] × 150&gt;</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     │   ├── $Sepal.Length &lt;float64&gt;</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     │   ├── $Sepal.Width &lt;float64&gt;</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     │   ├── $Petal.Length &lt;float64&gt;</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     │   ├── $Petal.Width &lt;float64&gt;</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     │   └── $Species &lt;enum&gt;</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └── coerced &lt;compound[5] × 150&gt;</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ├── $Sepal.Length &lt;bfloat16&gt;</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ├── $Sepal.Width &lt;float32&gt;</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ├── $Petal.Length &lt;float32&gt;</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ├── $Petal.Width &lt;float32&gt;</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         └── $Species &lt;enum&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For a deeper dive, explore the <a href="https://cmmr.github.io/h5lite/articles/h5lite.html">Getting Started with h5lite</a> guide and the <a href="https://cmmr.github.io/hdf5lib/">hdf5lib documentation</a>.</p>
 
 
