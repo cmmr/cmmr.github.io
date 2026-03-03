@@ -11,27 +11,24 @@ image: "banner.png"
 <img src="banner.png" style="width:100%; max-width:1024px; height:auto;" alt="Connecting R and HDF5" />
 </div>
 
-
 The HDF5 hierarchical storage format is the industry standard for managing massive, complex datasets in **genomics**, **environmental science**, and **quantitative finance**. It serves as the data backbone for everything from NASA’s Earth-observing missions to next-generation sequencing. Since these are the exact domains where R is the primary language for analysis, the lack of reliable HDF5 support on CRAN has been a significant bottleneck. For years, developers have been trapped in a "dependency minefield," forced to choose between heavy Bioconductor requirements or brittle system configurations that frequently fail during installation.
 
 We are excited to announce [**h5lite**](https://cran.r-project.org/package=h5lite) and [**hdf5lib**](https://cran.r-project.org/package=hdf5lib), now available on CRAN. These packages provide a zero-dependency interface to HDF5 2.0, finally bringing world-class hierarchical storage to the R ecosystem in a way that is suitable for both interactive analysis and redistributable R package development.
 
 
-
 ## What is HDF5? The "Supercharged R List" Analogy
 
-If you aren't familiar with HDF5, the easiest way to think about it is as a **persistent, cross-platform R `list`**. 
-
-In R, a `list` is powerful because it can hold a matrix of numbers, a data frame, and a nested list all in one object. HDF5 brings this same flexibility to your hard drive, allowing you to:
+If you aren't familiar with HDF5, the easiest way to think about it is as a **persistent, cross-platform R `list`**. In R, a `list` is powerful because it can hold a matrix of numbers, a data frame, and a nested list all in one object. HDF5 brings this same flexibility to your hard drive, allowing you to:
 
 * **Store Heterogeneous Data Together:** Keep arrays, tidy data frames, and raw bytes inside a single `.h5` file.
+
+* **Perform Efficient Partial I/O:** HDF5 allows you to "reach in" and read only the specific slice of a dataset you need. This makes it possible to work with multi-gigabyte objects that would otherwise crash your R session.
 
 * **Preserve Metadata with Attributes:** HDF5 attributes are the direct analog to R attributes. You can attach custom metadata - like units, timestamps, or descriptions - directly to any dataset or group.
 
 * **Organize with Groups:** Just as you nest lists in R, HDF5 uses a filesystem-like hierarchy of "groups" to organize your data.
 
 * **Share Across Languages:** Because HDF5 is a universal standard, that "list" you saved in R can be opened in Python as a dictionary or in Julia as a named tuple, with all your attributes and dimensions intact.
-
 
 
 ## The Motivation: Navigating the Dependency Minefield
@@ -45,7 +42,6 @@ The primary goal of `h5lite` and `hdf5lib` is to eliminate the "Dependency Minef
 By providing a **guaranteed, zero-dependency environment**, these packages allow R developers to simply add `LinkingTo: hdf5lib` to their `DESCRIPTION` file. For the first time, you can ship a package that uses HDF5 and be certain it will "just work" for every user, on every platform, immediately upon installation.
 
 
-
 ## Choosing Your Path: Which Package to Use?
     
 Depending on whether you are analyzing data or building tools for others, your entry point into this ecosystem will differ:
@@ -57,13 +53,11 @@ Depending on whether you are analyzing data or building tools for others, your e
     * **`LinkingTo: hdf5lib`**: Use this if your package contains C or C++ code and requires direct, high-performance access to the native HDF5 C API.
 
 
-
 <img src="h5lite.png" align="right" width="179" height="200" alt="h5lite logo" />
 
 ## The Interface: [`h5lite`](https://cmmr.github.io/h5lite/)
 
 `h5lite` is an opinionated, streamlined interface that handles the complexities of [type mapping and interoperability](https://cmmr.github.io/h5lite/articles/data-types.html) so you can focus on your data. Below is a summary of the type translation logic handled by the h5lite interface:
-
 
 | R Data Type    | HDF5 Equivalent  | Description                                    |
 | :------------- | :--------------- | :--------------------------------------------- |
@@ -89,7 +83,9 @@ Depending on whether you are analyzing data or building tools for others, your e
 
 * **Metadata Preservation:** R `names`, `row.names`, and `dimnames` are preserved as HDF5 dimension scales, maintaining your metadata across platforms.
 
-* **Compression:** Built-in zlib compression is supported. When enabled, `h5lite` [applies a "shuffle" filter](https://cmmr.github.io/h5lite/articles/data-types.html#compression) to rearrange bytes for significantly better compression of numerical data.
+* **Advanced Compression:** Supports both [GZIP and SZIP compression](https://cmmr.github.io/h5lite/articles/data-compression.html). SZIP is an extremely fast, specialized algorithm designed specifically for high-performance scientific data.
+
+* **Efficient Partial Reading:** One of HDF5's greatest strengths is the ability to read small slices of massive datasets without loading the entire file into memory. `h5lite` now provides ["smart" partial I/O](https://cmmr.github.io/h5lite/articles/partial-reading.html) via `start` and `count` parameters, which automatically target the most logical structural units (like rows in a matrix or elements in a vector).
 
 
 
@@ -101,28 +97,28 @@ Under the hood, `h5lite` is powered by **`hdf5lib`**. While most users won't int
 
 * **Bundled Source:** To eliminate external dependencies, `hdf5lib` bundles the complete HDF5 2.0.0 source code. It compiles natively during installation on macOS, Windows, and Linux - no external system libraries required.
 
-* **Thread-Safety:** Unlike many system builds, `hdf5lib` is compiled with thread-safety enabled by default. This allows for [safe parallel I/O](https://cmmr.github.io/h5lite/articles/parallel-io.html) regardless of your chosen threading system, whether you are using `RcppParallel`, `OpenMP`, `pthreads`, or similar libraries.
+**Bundled Gzip and Szip Support:** To ensure zero external dependencies, `hdf5lib` bundles both the **zlib** and **libaec** libraries. These libraries are permissively licensed and handle a broad range of compression needs out-of-the-box on all platforms.
+
+* **Thread-Safety:** Unlike many system builds, `hdf5lib` is compiled with thread-safety enabled by default. This allows for [safe parallel I/O](https://cmmr.github.io/hdf5lib/articles/parallelism.html) regardless of your chosen threading system.
 
 * **Versioning & API Stability:** Developers can specify `LinkingTo: hdf5lib (>= 2.0)` to ensure HDF5 2.0 features are available. Built-in [API versioning](https://cmmr.github.io/hdf5lib/articles/api-versioning.html) also safeguards your code against breaking changes in future HDF5 releases.
 
 
-
 ## Stability and Minimal Footprint
 
-Reliability is paramount for a storage interface. Both packages minimize their dependency footprint by **not importing any other R packages**. To ensure a stable experience, `h5lite` maintains a **100% code coverage test suite**. 
+Reliability is paramount for a storage interface. Both packages minimize their dependency footprint by **not importing any other R packages**. To ensure a stable experience, `h5lite` maintains a **100% code coverage test suite**. Both packages have been rigorously validated across standard CRAN platforms (Linux, Windows, macOS) and compilers (GCC, Clang).
 
-Both packages have been rigorously validated across standard CRAN platforms (Linux, Windows, macOS) and compilers (GCC, Clang). For developers, we have prioritized memory safety by passing checks for **Valgrind, ASAN, and UBSAN**, ensuring that packages linking to these libraries remain free of upstream memory issues.
 
 ## Comparison at a Glance
 
-| Feature              | h5lite / hdf5lib       | rhdf5 / Rhdf5lib   | hdf5r         |
-| :------------------- | :--------------------- | :----------------- | :------------ |
-| **Repository**       | **CRAN**               | Bioconductor       | CRAN          |
-| **HDF5 Version**     | **2.0.0 (Guaranteed)** | 1.10.7 (or System) | System        |
-| **API Philosophy**   | **Streamlined**        | Comprehensive      | Comprehensive |
-| **Install Friction** | **None**               | BiocManager        | System Libs   |
-| **Thread Safety**    | **Yes (Default)**      | No (Default)       | Varies        |
-
+| Feature              | h5lite / hdf5lib       | rhdf5 / Rhdf5lib   | hdf5r           |
+| :------------------- | :--------------------- | :----------------- | :-------------- |
+| **Repository**       | **CRAN**               | Bioconductor       | CRAN            |
+| **HDF5 Version**     | **2.0.0 (Guaranteed)** | 1.10.7 (or System) | System          |
+| **API Philosophy**   | **Streamlined**        | Comprehensive      | Comprehensive   |
+| **Partial I/O**      | **Yes (Smart/Simple)** | Yes (Low-level)    | Yes (Low-level) |
+| **Install Friction** | **None**               | BiocManager        | System Libs     |
+| **Thread Safety**    | **Yes (Default)**      | No (Default)       | Varies          |
 
 
 ## Try It Out
@@ -133,10 +129,22 @@ install.packages("h5lite")
 library(h5lite)
 file <- tempfile(fileext = ".h5")
 
-# Write various R objects
+# 1. Write with high-performance SZIP compression
+# SZIP is faster and often achieves better ratios for numeric data
+signal_mtx <- matrix(sin(seq(0, 10, length.out = 5000)), ncol = 5, byrow = TRUE)
+h5_write(signal_mtx, file, "signal_mtx", compress = "szip-nn")
+
+# 2. Perform a partial read (load only rows 10 through 13)
+# This is much faster and more memory-efficient than reading the whole file
+h5_read(file, "signal_mtx", start = 10, count = 3)
+#>            [,1]      [,2]       [,3]       [,4]       [,5]
+#> [1,] 0.08989648 0.0918886 0.09388035 0.09587173 0.09786272
+#> [2,] 0.09985332 0.1018435 0.10383332 0.10582269 0.10781165
+#> [3,] 0.10980017 0.1117883 0.11377589 0.11576307 0.11774979
+
+# 3. Write various R objects with smart defaults
 h5_write(1:10, file, "ints")                   # Integer Vector
 h5_write(I("example"), file, "/", attr = "id") # Scalar Attribute
-h5_write(matrix(rnorm(9), 3, 3), file, "mtx")  # Numeric Matrix
 h5_write(factor(letters), file, "letters")     # Factor -> ENUM
 h5_write(list(a = 1, b = 2), file, "config")   # List -> GROUP
 h5_write(iris, file, "flowers/iris")           # Data Frame -> COMPOUND
@@ -149,7 +157,7 @@ h5_write(iris, file, "flowers/coerced",
 h5_str(file)
 #> /
 #> ├── @id <utf8[7] scalar>
-#> ├── mtx <float64 × 3 × 3>
+#> ├── signal_mtx <float64 × 1000 × 5>
 #> ├── letters <enum × 26>
 #> ├── config/
 #> │   ├── a <uint8 × 1>
