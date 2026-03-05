@@ -104,7 +104,7 @@ Under the hood, `h5lite` is powered by **`hdf5lib`**. While most users won't int
 * **Versioning & API Stability:** Developers can specify `LinkingTo: hdf5lib (>= 2.0)` to ensure HDF5 2.0 features are available. Built-in [API versioning](https://cmmr.github.io/hdf5lib/articles/api-versioning.html) also safeguards your code against breaking changes in future HDF5 releases.
 
 
-## Modular Compression: The `h5filters` Package
+## Modular Compression: The [`h5filters`](https://github.com/cmmr/h5filters/) Package
     
 To keep the core packages lean while providing world-class compression, we are introducing a modular "Plugin" approach. 
 
