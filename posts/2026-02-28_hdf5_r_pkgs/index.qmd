@@ -83,25 +83,36 @@ Depending on whether you are analyzing data or building tools for others, your e
 
 * **Metadata Preservation:** R `names`, `row.names`, and `dimnames` are preserved as HDF5 dimension scales, maintaining your metadata across platforms.
 
-* **Advanced Compression:** Supports both [GZIP and SZIP compression](https://cmmr.github.io/h5lite/articles/data-compression.html). SZIP is an extremely fast, specialized algorithm designed specifically for high-performance scientific data.
+* **Smart Partial I/O (Upcoming):** One of HDF5's greatest strengths is reading small slices of massive datasets. Support for ["smart" partial I/O](https://cmmr.github.io/h5lite/articles/partial-reading.html) is being introduced in **version 2.0.0.3**. This version allows you to use `start` and `count` parameters to target specific structural units without loading entire files into memory.
 
-* **Efficient Partial Reading:** One of HDF5's greatest strengths is the ability to read small slices of massive datasets without loading the entire file into memory. `h5lite` now provides ["smart" partial I/O](https://cmmr.github.io/h5lite/articles/partial-reading.html) via `start` and `count` parameters, which automatically target the most logical structural units (like rows in a matrix or elements in a vector).
+> **Note:** Version 2.0.0.3 with enhanced partial reading is currently available on **GitHub** for early adopters and will be submitted to CRAN following final validation.
 
 
 
 <img src="hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo" />
 
 ## The Engine: [`hdf5lib`](https://cmmr.github.io/hdf5lib/)
-
+    
 Under the hood, `h5lite` is powered by **`hdf5lib`**. While most users won't interact with it directly, it serves as the rock-solid foundation for the entire ecosystem.
 
-* **Bundled Source:** To eliminate external dependencies, `hdf5lib` bundles the complete HDF5 2.0.0 source code. It compiles natively during installation on macOS, Windows, and Linux - no external system libraries required.
+* **Bundled Source:** `hdf5lib` bundles the complete HDF5 2.0.0 source code, compiling natively on macOS, Windows, and Linux with no external system libraries required.
 
-**Bundled Gzip and Szip Support:** To ensure zero external dependencies, `hdf5lib` bundles both the **zlib** and **libaec** libraries. These libraries are permissively licensed and handle a broad range of compression needs out-of-the-box on all platforms.
+* **Core Compression:** To maintain a minimal footprint, `hdf5lib` bundles only **zlib**. This ensures that standard GZIP compression "just works" out-of-the-box on all platforms without adding unnecessary build time for advanced filters.
 
-* **Thread-Safety:** Unlike many system builds, `hdf5lib` is compiled with thread-safety enabled by default. This allows for [safe parallel I/O](https://cmmr.github.io/hdf5lib/articles/parallelism.html) regardless of your chosen threading system.
+* **Thread-Safety:** Compiled with thread-safety enabled by default, allowing for [safe parallel I/O](https://cmmr.github.io/hdf5lib/articles/parallelism.html) regardless of your chosen threading system.
 
 * **Versioning & API Stability:** Developers can specify `LinkingTo: hdf5lib (>= 2.0)` to ensure HDF5 2.0 features are available. Built-in [API versioning](https://cmmr.github.io/hdf5lib/articles/api-versioning.html) also safeguards your code against breaking changes in future HDF5 releases.
+
+
+## Modular Compression: The `h5filters` Package
+    
+To keep the core packages lean while providing world-class compression, we are introducing a modular "Plugin" approach. 
+
+* **The Upcoming `h5filters` Package:** We are currently developing a companion package, `h5filters`. This package will act as a "one-stop shop" for high-performance HDF5 filters, including **LZ4**, **Zstd**, **Blosc**, and **Szip (libaec)**.
+
+* **How it Works:** Once installed, `h5lite` will automatically detect `h5filters` and register these specialized compressors at runtime.
+
+* **Immediate Alternatives:** If you need these formats today, `h5lite` can utilize external plugins. You can point the `HDF5_PLUGIN_PATH` environment variable to the plugin directories provided by Bioconductor's **`rhdf5filters`**, Python’s **`hdf5plugin`** package, or Julia's **`H5Z`** family of packages.
 
 
 ## Stability and Minimal Footprint
