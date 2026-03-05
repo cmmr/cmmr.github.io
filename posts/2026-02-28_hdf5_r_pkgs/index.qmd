@@ -83,7 +83,7 @@ Depending on whether you are analyzing data or building tools for others, your e
 
 * **Metadata Preservation:** R `names`, `row.names`, and `dimnames` are preserved as HDF5 dimension scales, maintaining your metadata across platforms.
 
-* **Smart Partial I/O (Upcoming):** One of HDF5's greatest strengths is reading small slices of massive datasets. Support for ["smart" partial I/O](https://cmmr.github.io/h5lite/articles/partial-reading.html) is being introduced in **version 2.0.0.3**. This version allows you to use `start` and `count` parameters to target specific structural units without loading entire files into memory.
+* **Smart Partial I/O (Upcoming):** One of HDF5's greatest strengths is reading small slices of massive datasets. Support for ["smart" partial I/O](https://cmmr.github.io/h5lite/articles/partial-reading.html) is being introduced in **version 2.0.0.4**. This version allows you to use `start` and `count` parameters to target specific structural units without loading entire files into memory.
 
 > **Note:** Version 2.0.0.3 with enhanced partial reading is currently available on **GitHub** for early adopters and will be submitted to CRAN following final validation.
 
