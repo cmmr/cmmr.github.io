@@ -580,9 +580,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Precision Control:</strong> Use the <code>as</code> argument to explicitly request types like <code>bfloat16</code>, <code>float32</code>, or specific fixed-length strings to match external schemas.</p></li>
 <li><p><strong>Transparent Interoperability:</strong> R uses column-major order while HDF5 uses row-major. <code>h5lite</code> handles these permutations automatically, ensuring your data opens correctly in Python or Julia.</p></li>
 <li><p><strong>Metadata Preservation:</strong> R <code>names</code>, <code>row.names</code>, and <code>dimnames</code> are preserved as HDF5 dimension scales, maintaining your metadata across platforms.</p></li>
-<li><p><strong>Advanced Compression:</strong> Supports both <a href="https://cmmr.github.io/h5lite/articles/data-compression.html">GZIP and SZIP compression</a>. SZIP is an extremely fast, specialized algorithm designed specifically for high-performance scientific data.</p></li>
-<li><p><strong>Efficient Partial Reading:</strong> One of HDF5’s greatest strengths is the ability to read small slices of massive datasets without loading the entire file into memory. <code>h5lite</code> now provides <a href="https://cmmr.github.io/h5lite/articles/partial-reading.html">“smart” partial I/O</a> via <code>start</code> and <code>count</code> parameters, which automatically target the most logical structural units (like rows in a matrix or elements in a vector).</p></li>
+<li><p><strong>Smart Partial I/O (Upcoming):</strong> One of HDF5’s greatest strengths is reading small slices of massive datasets. Support for <a href="https://cmmr.github.io/h5lite/articles/partial-reading.html">“smart” partial I/O</a> is being introduced in <strong>version 2.0.0.3</strong>. This version allows you to use <code>start</code> and <code>count</code> parameters to target specific structural units without loading entire files into memory.</p></li>
 </ul>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> Version 2.0.0.3 with enhanced partial reading is currently available on <strong>GitHub</strong> for early adopters and will be submitted to CRAN following final validation.</p>
+</blockquote>
 <p><img src="hdf5lib.png" align="right" width="174" height="200" alt="hdf5lib logo"></p>
 </section>
 </section>
@@ -590,12 +592,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="the-engine-hdf5lib">The Engine: <a href="https://cmmr.github.io/hdf5lib/"><code>hdf5lib</code></a></h2>
 <p>Under the hood, <code>h5lite</code> is powered by <strong><code>hdf5lib</code></strong>. While most users won’t interact with it directly, it serves as the rock-solid foundation for the entire ecosystem.</p>
 <ul>
-<li><strong>Bundled Source:</strong> To eliminate external dependencies, <code>hdf5lib</code> bundles the complete HDF5 2.0.0 source code. It compiles natively during installation on macOS, Windows, and Linux - no external system libraries required.</li>
-</ul>
-<p><strong>Bundled Gzip and Szip Support:</strong> To ensure zero external dependencies, <code>hdf5lib</code> bundles both the <strong>zlib</strong> and <strong>libaec</strong> libraries. These libraries are permissively licensed and handle a broad range of compression needs out-of-the-box on all platforms.</p>
-<ul>
-<li><p><strong>Thread-Safety:</strong> Unlike many system builds, <code>hdf5lib</code> is compiled with thread-safety enabled by default. This allows for <a href="https://cmmr.github.io/hdf5lib/articles/parallelism.html">safe parallel I/O</a> regardless of your chosen threading system.</p></li>
+<li><p><strong>Bundled Source:</strong> <code>hdf5lib</code> bundles the complete HDF5 2.0.0 source code, compiling natively on macOS, Windows, and Linux with no external system libraries required.</p></li>
+<li><p><strong>Core Compression:</strong> To maintain a minimal footprint, <code>hdf5lib</code> bundles only <strong>zlib</strong>. This ensures that standard GZIP compression “just works” out-of-the-box on all platforms without adding unnecessary build time for advanced filters.</p></li>
+<li><p><strong>Thread-Safety:</strong> Compiled with thread-safety enabled by default, allowing for <a href="https://cmmr.github.io/hdf5lib/articles/parallelism.html">safe parallel I/O</a> regardless of your chosen threading system.</p></li>
 <li><p><strong>Versioning &amp; API Stability:</strong> Developers can specify <code>LinkingTo: hdf5lib (&gt;= 2.0)</code> to ensure HDF5 2.0 features are available. Built-in <a href="https://cmmr.github.io/hdf5lib/articles/api-versioning.html">API versioning</a> also safeguards your code against breaking changes in future HDF5 releases.</p></li>
+</ul>
+</section>
+<section id="modular-compression-the-h5filters-package" class="level2">
+<h2 class="anchored" data-anchor-id="modular-compression-the-h5filters-package">Modular Compression: The <code>h5filters</code> Package</h2>
+<p>To keep the core packages lean while providing world-class compression, we are introducing a modular “Plugin” approach.</p>
+<ul>
+<li><p><strong>The Upcoming <code>h5filters</code> Package:</strong> We are currently developing a companion package, <code>h5filters</code>. This package will act as a “one-stop shop” for high-performance HDF5 filters, including <strong>LZ4</strong>, <strong>Zstd</strong>, <strong>Blosc</strong>, and <strong>Szip (libaec)</strong>.</p></li>
+<li><p><strong>How it Works:</strong> Once installed, <code>h5lite</code> will automatically detect <code>h5filters</code> and register these specialized compressors at runtime.</p></li>
+<li><p><strong>Immediate Alternatives:</strong> If you need these formats today, <code>h5lite</code> can utilize external plugins. You can point the <code>HDF5_PLUGIN_PATH</code> environment variable to the plugin directories provided by Bioconductor’s <strong><code>rhdf5filters</code></strong>, Python’s <strong><code>hdf5plugin</code></strong> package, or Julia’s <strong><code>H5Z</code></strong> family of packages.</p></li>
 </ul>
 </section>
 <section id="stability-and-minimal-footprint" class="level2">
