@@ -97,22 +97,22 @@ Under the hood, `h5lite` is powered by **`hdf5lib`**. While most users won't int
 
 * **Bundled Source:** `hdf5lib` bundles the complete HDF5 2.0.0 source code, compiling natively on macOS, Windows, and Linux with no external system libraries required.
 
-* **Core Compression:** To maintain a minimal footprint, `hdf5lib` bundles only **zlib**. This ensures that standard GZIP compression "just works" out-of-the-box on all platforms without adding unnecessary build time for advanced filters.
+* **Comprehensive Compression:** In the next release, `hdf5lib` will bundle **gzip (zlib)**, **szip (libaec)**, **lz4**, **zstd**, and **blosc**. This ensures these high-performance filters "just work" out-of-the-box on all platforms and are available to users of `h5lite`.
 
 * **Thread-Safety:** Compiled with thread-safety enabled by default, allowing for [safe parallel I/O](https://cmmr.github.io/hdf5lib/articles/parallelism.html) regardless of your chosen threading system.
 
 * **Versioning & API Stability:** Developers can specify `LinkingTo: hdf5lib (>= 2.0)` to ensure HDF5 2.0 features are available. Built-in [API versioning](https://cmmr.github.io/hdf5lib/articles/api-versioning.html) also safeguards your code against breaking changes in future HDF5 releases.
 
 
-## Modular Compression: The [`h5filters`](https://github.com/cmmr/h5filters/) Package
+## Integrated Compression Support
     
-To keep the core packages lean while providing world-class compression, we are introducing a modular "Plugin" approach. 
+To provide world-class compression while maintaining a minimal footprint and zero-dependency promise, we are integrating advanced filters directly into the engine. 
 
-* **The Upcoming `h5filters` Package:** We are currently developing a companion package, `h5filters`. This package will act as a "one-stop shop" for high-performance HDF5 filters, including **LZ4**, **Zstd**, **Blosc**, and **Szip (libaec)**.
+* **Bundled Libraries:** Instead of a standalone package, the **gzip (zlib)**, **szip (libaec)**, **lz4**, **zstd**, and **blosc** compression libraries will be bundled in the next release of `hdf5lib`.
 
-* **How it Works:** Once installed, `h5lite` will automatically detect `h5filters` and register these specialized compressors at runtime.
+* **How it Works:** `h5lite` will automatically leverage these libraries bundled within `hdf5lib` to provide seamless, high-performance compression at runtime.
 
-* **Immediate Alternatives:** If you need these formats today, `h5lite` can utilize external plugins. You can point the `HDF5_PLUGIN_PATH` environment variable to the plugin directories provided by Bioconductor's **`rhdf5filters`**, Python’s **`hdf5plugin`** package, or Julia's **`H5Z`** family of packages.
+* **Immediate Alternatives:** If you need these formats today, `h5lite` can utilize external plugins. You can point the `HDF5_PLUGIN_PATH` environment variable to the plugin directories provided by Bioconductor's [**`rhdf5filters`**](https://bioconductor.org/packages/release/bioc/html/rhdf5filters.html) package.
 
 
 ## Stability and Minimal Footprint
