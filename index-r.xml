@@ -154,18 +154,18 @@
 <p>Under the hood, <code>h5lite</code> is powered by <strong><code>hdf5lib</code></strong>. While most users won’t interact with it directly, it serves as the rock-solid foundation for the entire ecosystem.</p>
 <ul>
 <li><p><strong>Bundled Source:</strong> <code>hdf5lib</code> bundles the complete HDF5 2.0.0 source code, compiling natively on macOS, Windows, and Linux with no external system libraries required.</p></li>
-<li><p><strong>Core Compression:</strong> To maintain a minimal footprint, <code>hdf5lib</code> bundles only <strong>zlib</strong>. This ensures that standard GZIP compression “just works” out-of-the-box on all platforms without adding unnecessary build time for advanced filters.</p></li>
+<li><p><strong>Comprehensive Compression:</strong> In the next release, <code>hdf5lib</code> will bundle <strong>gzip (zlib)</strong>, <strong>szip (libaec)</strong>, <strong>lz4</strong>, <strong>zstd</strong>, and <strong>blosc</strong>. This ensures these high-performance filters “just work” out-of-the-box on all platforms and are available to users of <code>h5lite</code>.</p></li>
 <li><p><strong>Thread-Safety:</strong> Compiled with thread-safety enabled by default, allowing for <a href="https://cmmr.github.io/hdf5lib/articles/parallelism.html">safe parallel I/O</a> regardless of your chosen threading system.</p></li>
 <li><p><strong>Versioning &amp; API Stability:</strong> Developers can specify <code>LinkingTo: hdf5lib (&gt;= 2.0)</code> to ensure HDF5 2.0 features are available. Built-in <a href="https://cmmr.github.io/hdf5lib/articles/api-versioning.html">API versioning</a> also safeguards your code against breaking changes in future HDF5 releases.</p></li>
 </ul>
 </section>
-<section id="modular-compression-the-h5filters-package" class="level2">
-<h2 class="anchored" data-anchor-id="modular-compression-the-h5filters-package">Modular Compression: The <a href="https://github.com/cmmr/h5filters/"><code>h5filters</code></a> Package</h2>
-<p>To keep the core packages lean while providing world-class compression, we are introducing a modular “Plugin” approach.</p>
+<section id="integrated-compression-support" class="level2">
+<h2 class="anchored" data-anchor-id="integrated-compression-support">Integrated Compression Support</h2>
+<p>To provide world-class compression while maintaining a minimal footprint and zero-dependency promise, we are integrating advanced filters directly into the engine.</p>
 <ul>
-<li><p><strong>The Upcoming <code>h5filters</code> Package:</strong> We are currently developing a companion package, <code>h5filters</code>. This package will act as a “one-stop shop” for high-performance HDF5 filters, including <strong>LZ4</strong>, <strong>Zstd</strong>, <strong>Blosc</strong>, and <strong>Szip (libaec)</strong>.</p></li>
-<li><p><strong>How it Works:</strong> Once installed, <code>h5lite</code> will automatically detect <code>h5filters</code> and register these specialized compressors at runtime.</p></li>
-<li><p><strong>Immediate Alternatives:</strong> If you need these formats today, <code>h5lite</code> can utilize external plugins. You can point the <code>HDF5_PLUGIN_PATH</code> environment variable to the plugin directories provided by Bioconductor’s <strong><code>rhdf5filters</code></strong>, Python’s <strong><code>hdf5plugin</code></strong> package, or Julia’s <strong><code>H5Z</code></strong> family of packages.</p></li>
+<li><p><strong>Bundled Libraries:</strong> Instead of a standalone package, the <strong>gzip (zlib)</strong>, <strong>szip (libaec)</strong>, <strong>lz4</strong>, <strong>zstd</strong>, and <strong>blosc</strong> compression libraries will be bundled in the next release of <code>hdf5lib</code>.</p></li>
+<li><p><strong>How it Works:</strong> <code>h5lite</code> will automatically leverage these libraries bundled within <code>hdf5lib</code> to provide seamless, high-performance compression at runtime.</p></li>
+<li><p><strong>Immediate Alternatives:</strong> If you need these formats today, <code>h5lite</code> can utilize external plugins. You can point the <code>HDF5_PLUGIN_PATH</code> environment variable to the plugin directories provided by Bioconductor’s <a href="https://bioconductor.org/packages/release/bioc/html/rhdf5filters.html"><strong><code>rhdf5filters</code></strong></a> package.</p></li>
 </ul>
 </section>
 <section id="stability-and-minimal-footprint" class="level2">
